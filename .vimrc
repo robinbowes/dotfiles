@@ -37,12 +37,17 @@ set number
 " Enable syntax highlighting
 syntax on
 " Highlight current line
-set cursorline
+" set cursorline
+" indent using two spaces
+set shiftwidth=2
 " Make tabs as wide as two spaces
 set tabstop=2
+" always expand tabs into spaces
+set expandtab
+set softtabstop=0
 " Show “invisible” characters
-set lcs=tab:▸\ ,trail:·,eol:¬,nbsp:_
-set list
+" set lcs=tab:▸\ ,trail:·,eol:¬,nbsp:_
+" set list
 " Highlight searches
 set hlsearch
 " Ignore case of searches
