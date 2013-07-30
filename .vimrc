@@ -57,7 +57,7 @@ set incsearch
 " Always show status line
 set laststatus=2
 " Disable mouse in all modes
-set nomouse
+set mouse=""
 " Disable error bells
 set noerrorbells
 " Don’t reset cursor to start of line when moving around.
