@@ -60,6 +60,8 @@ set laststatus=2
 set mouse=""
 " Disable error bells
 set noerrorbells
+" Show visual bells
+set visualbell
 " Don’t reset cursor to start of line when moving around.
 set nostartofline
 " Show the cursor position
@@ -79,6 +81,8 @@ if exists("&relativenumber")
 endif
 " Start scrolling three lines before the horizontal window border
 set scrolloff=3
+" Set key to toggle paste mode
+set pastetoggle=<F11>
 
 " Strip trailing whitespace (,ss)
 function! StripWhitespace()
@@ -99,3 +103,7 @@ if has("autocmd")
 	" Treat .json files as .js
 	autocmd BufNewFile,BufRead *.json setfiletype json syntax=javascript
 endif
+
+" Colours
+set background=dark
+colorscheme solarized
