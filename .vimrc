@@ -107,3 +107,6 @@ endif
 " Colours
 set background=dark
 colorscheme solarized
+set rtp+=/usr/lib/python2.7/site-packages/Powerline-beta-py2.7.egg/powerline/bindings/vim
+" Hide the default mode text (e.g. -- INSERT -- below the statusline)
+set noshowmode
