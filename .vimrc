@@ -105,7 +105,11 @@ if has("autocmd")
 endif
 
 " Colours
-set background=dark
+if has('gui_running')
+  set background=light
+else
+  set background=dark
+endif
 colorscheme solarized
 set rtp+=/usr/lib/python2.7/site-packages/Powerline-beta-py2.7.egg/powerline/bindings/vim
 " Hide the default mode text (e.g. -- INSERT -- below the statusline)
