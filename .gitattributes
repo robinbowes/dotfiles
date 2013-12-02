@@ -1,2 +1,22 @@
-# Automatically normalize line endings for all text-based files
+# https://help.github.com/articles/dealing-with-line-endings
+# http://adaptivepatchwork.com/2012/03/01/mind-the-end-of-your-line/
+
+# If no override is provided for a file below we ask git to automatically filter line endings
 * text=auto
+
+*.mc text
+*.java text
+*.xml text
+*.properties text
+*.rb text
+*.erb text
+*.pp text
+*.sh text
+*.yaml text
+*.eyaml text
+Vagrantfile text
+Rakefile text
+README text
+*.gemspec text
+*.vim text
+*.md text
