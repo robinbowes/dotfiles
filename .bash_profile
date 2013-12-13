@@ -49,7 +49,7 @@ which grunt &> /dev/null && eval "$(grunt --completion=bash)"
 [ -f /etc/bash_completion ] && source /etc/bash_completion
 
 function parse_git_dirty {
-    if [[ $(git status 2> /dev/null | tail -n1) == "nothing to commit, working directory clean" ]]; then
+    if [[ $(git status --porcelain 2> /dev/null) == "" ]]; then
         echo -e '\033[0;32m✔'
     else
         echo -e '\033[0;31m✗✗✗'
