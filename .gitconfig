@@ -24,6 +24,17 @@
 	# Interactive rebase with the given number of latest commits
 	reb = "!r() { git rebase -i HEAD~$1; }; r"
 
+  # Print out a nice ascii graph of the branches with commit comments, and refs shown.
+  graph = log --graph --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)' --all
+
+  # log/diff the commits you are ahead of the remote (Note the @{u} points to the upstream branch HEAD is what you currently have checked out):
+  logahead = log --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)' @{u}..HEAD
+  diffahead = diff @{u}..HEAD
+
+  # log/diff the commits you are behind the remote (use git fetch since pull will automatically merge these commits in):
+  logbehind = log --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)' HEAD..@{u}
+  diffbehind = diff HEAD..@{u}
+
 [apply]
 	# Detect whitespace errors when applying a patch
 	whitespace = fix
