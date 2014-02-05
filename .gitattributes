@@ -10,6 +10,7 @@
 *.java text
 *.mc text
 *.md text
+*.php text
 *.pp text
 *.properties text
 *.py text
