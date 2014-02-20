@@ -48,6 +48,8 @@ which grunt &> /dev/null && eval "$(grunt --completion=bash)"
 # If possible, add tab completion for many more commands
 [ -f /etc/bash_completion ] && source /etc/bash_completion
 
+[ -f /usr/share/bash-completion/bash_completion ] && source /usr/share/bash-completion/bash_completion
+
 function parse_git_dirty {
     if [[ $(git status --porcelain 2> /dev/null) == "" ]]; then
         echo -e '\033[0;32m✔'
