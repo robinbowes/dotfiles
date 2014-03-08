@@ -113,3 +113,6 @@ prompt
 
 # Load boxen environment, if present
 [ -f /opt/boxen/env.sh ] && source /opt/boxen/env.sh
+
+# initialize rbenv
+eval "$(rbenv init -)"
