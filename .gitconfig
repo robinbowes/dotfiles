@@ -92,3 +92,5 @@
 [include]
   # username, creds, etc. in local file not kept in git
   path = ~/.gitconfig.local
+  # William Hill-specific config
+  path = ~/.gitconfig.wh
