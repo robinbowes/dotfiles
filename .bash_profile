@@ -46,9 +46,14 @@ complete -o "nospace" -W "Contacts Calendar Dock Finder Mail Safari iTunes Syste
 which grunt &> /dev/null && eval "$(grunt --completion=bash)"
 
 # If possible, add tab completion for many more commands
-[ -f /etc/bash_completion ] && source /etc/bash_completion
-
-[ -f /usr/share/bash-completion/bash_completion ] && source /usr/share/bash-completion/bash_completion
+declare -a completion_files=(
+  /etc/bash_completion
+  /usr/share/bash-completion/bash_completion
+  /opt/boxen/homebrew/etc/bash_completion
+)
+for completion_file in "${completion_files[@]}"; do
+  [ -f "$completion_file" ] && source "$completion_file"
+done
 
 function parse_git_dirty {
     if [[ $(git status --porcelain 2> /dev/null) == "" ]]; then
