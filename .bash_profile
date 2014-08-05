@@ -4,7 +4,7 @@ export PATH="$HOME/.rbenv/bin:$HOME/bin:$PATH"
 # Load the shell dotfiles, and then some:
 # * ~/.path can be used to extend `$PATH`.
 # * ~/.extra can be used for other settings you don’t want to commit.
-for file in ~/.{path,bash_prompt,exports,aliases,functions,extra}; do
+for file in ~/.{path,bash_prompt,exports,aliases,functions,extra,aws}; do
   [ -r "$file" ] && source "$file"
 done
 unset file
@@ -44,6 +44,9 @@ complete -o "nospace" -W "Contacts Calendar Dock Finder Mail Safari iTunes Syste
 
 # Autocomplete Grunt commands
 which grunt &> /dev/null && eval "$(grunt --completion=bash)"
+
+# Add completion for awscli
+complete -C aws_completer aws
 
 # If possible, add tab completion for many more commands
 declare -a completion_files=(
