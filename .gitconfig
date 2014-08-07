@@ -99,7 +99,7 @@
 	insteadOf = "gist:"
 
 [push]
-	default = matching
+	default = simple
 [include]
   # username, creds, etc. in local file not kept in git
   path = ~/.gitconfig.local
