@@ -4,10 +4,20 @@ export PATH="$HOME/.rbenv/bin:$HOME/bin:$PATH"
 # Load the shell dotfiles, and then some:
 # * ~/.path can be used to extend `$PATH`.
 # * ~/.extra can be used for other settings you don’t want to commit.
-for file in ~/.{path,bash_prompt,exports,aliases,functions,extra,aws}; do
-  [ -r "$file" ] && source "$file"
+
+declare -a extra_files=(
+  ~/.path
+  ~/.bash_prompt
+  ~/.exports
+  ~/.aliases
+  ~/.functions
+  ~/.extra
+  ~/.amazon_web_services
+)
+for extra_file in "${extra_files[@]}"; do
+  [ -r "$extra_file" ] && source "$extra_file"
 done
-unset file
+unset extra_file
 
 # Case-insensitive globbing (used in pathname expansion)
 shopt -s nocaseglob
