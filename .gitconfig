@@ -100,6 +100,12 @@
 
 [push]
 	default = simple
+
+[filter "media"]
+  required = true
+  clean = git media clean %f
+  smudge = git media smudge %f
+
 [include]
   # username, creds, etc. in local file not kept in git
   path = ~/.gitconfig.local
