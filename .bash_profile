@@ -73,3 +73,6 @@ done
 
 # initialize rbenv
 eval "$(rbenv init -)"
+
+# initialize nodenv
+if which nodenv > /dev/null; then eval "$(nodenv init -)"; fi
