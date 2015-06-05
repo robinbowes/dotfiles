@@ -1,0 +1,5 @@
+# Add rbenv to the path
+export PATH="$HOME/.rbenv/bin:$PATH"
+
+# Add nodenv to the path
+export PATH="$HOME/.nodenv/bin:$PATH"
