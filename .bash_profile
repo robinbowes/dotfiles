@@ -72,7 +72,7 @@ done
 [ -f /opt/boxen/env.sh ] && source /opt/boxen/env.sh
 
 # initialize rbenv
-eval "$(rbenv init -)"
+command -v rbenv &> /dev/null && eval "$(rbenv init -)"
 
 # initialize nodenv
-if which nodenv > /dev/null; then eval "$(nodenv init -)"; fi
+command -v nodenv &> /dev/null && eval "$(nodenv init -)"
