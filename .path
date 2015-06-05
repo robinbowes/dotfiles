@@ -1,5 +1,23 @@
+pathmunge () {
+    case ":${PATH}:" in
+        *:"$1":*)
+            ;;
+        *)
+            if [ "$2" = "after" ] ; then
+                PATH=$PATH:$1
+            else
+                PATH=$1:$PATH
+            fi
+    esac
+}
+
+# Add `~/bin` to the `$PATH`
+pathmunge "$HOME/bin"
+
 # Add rbenv to the path
-export PATH="$HOME/.rbenv/bin:$PATH"
+pathmunge "$HOME/.rbenv/bin"
 
 # Add nodenv to the path
-export PATH="$HOME/.nodenv/bin:$PATH"
+pathmunge "$HOME/.nodenv/bin"
+
+unset pathmunge
