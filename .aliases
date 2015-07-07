@@ -136,7 +136,7 @@ alias ssh='compile-ssh-config && ssh'
 
 # terminal title-related
 alias cwdcmd='echo -ne "\033]0;${USER}@${HOSTNAME}: ${PWD/$HOME/~}\007"'
-alias vim='_vim () { \vim -X "$@" ; cwdcmd ; }; _vim'
+#alias vim='_vim () { \vim -X "$@" ; cwdcmd ; }; _vim'
 
 # Stuff I never really use but cannot delete either because of http://xkcd.com/530/
 alias stfu="osascript -e 'set volume output muted true'"
