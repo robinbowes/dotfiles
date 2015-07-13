@@ -17,6 +17,9 @@ for extra_file in "${extra_files[@]}"; do
 done
 unset extra_file
 
+# Load boxen environment, if present
+[ -f /opt/boxen/env.sh ] && source /opt/boxen/env.sh
+
 # Case-insensitive globbing (used in pathname expansion)
 shopt -s nocaseglob
 
@@ -65,9 +68,6 @@ declare -a completion_files=(
 for completion_file in "${completion_files[@]}"; do
   [ -f "$completion_file" ] && source "$completion_file"
 done
-
-# Load boxen environment, if present
-[ -f /opt/boxen/env.sh ] && source /opt/boxen/env.sh
 
 # initialize rbenv
 command -v rbenv &> /dev/null && eval "$(rbenv init -)"
