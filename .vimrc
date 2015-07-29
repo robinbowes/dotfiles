@@ -105,6 +105,7 @@ if has("autocmd")
 	" Treat .json files as .js
 	autocmd BufNewFile,BufRead *.json setfiletype json syntax=javascript
 	autocmd BufEnter * let &titlestring = $HOSTNAME . ":" . expand("%:p:~")
+  autocmd FileType make setlocal noexpandtab
 endif
 
 " Colours
