@@ -1,4 +1,5 @@
 [global_config]
+  enabled_plugins = TerminalShot, LaunchpadCodeURLHandler, APTURLHandler, LaunchpadBugURLHandler
   focus = system
   title_transmit_bg_color = "#d30102"
 [keybindings]
