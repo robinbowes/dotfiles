@@ -11,6 +11,7 @@ declare -a extra_files=(
   ~/.extra
   ~/.amazon_web_services
   ~/.boot2docker/init
+  ~/.golang
 )
 for extra_file in "${extra_files[@]}"; do
   [ -r "$extra_file" ] && source "$extra_file"
