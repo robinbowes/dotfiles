@@ -2,7 +2,9 @@
 # * ~/.path can be used to extend `$PATH`.
 # * ~/.extra can be used for other settings you don’t want to commit.
 
+# .golang needs to run before .path
 declare -a extra_files=(
+  ~/.golang
   ~/.path
   ~/.bash_prompt
   ~/.exports
@@ -11,7 +13,6 @@ declare -a extra_files=(
   ~/.extra
   ~/.amazon_web_services
   ~/.boot2docker/init
-  ~/.golang
 )
 for extra_file in "${extra_files[@]}"; do
   [ -r "$extra_file" ] && source "$extra_file"
