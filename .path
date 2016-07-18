@@ -20,6 +20,9 @@ pathmunge "$HOME/.rbenv/bin"
 # Add nodenv to the path
 pathmunge "$HOME/.nodenv/bin"
 
+# Add go bin to the path
+pathmunge "$GOPATH/bin"
+
 # load any local path changes
 [ -r .path.local ] && source .path.local
 
