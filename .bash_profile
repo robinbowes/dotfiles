@@ -11,6 +11,7 @@ declare -a extra_files=(
   ~/.aliases
   ~/.functions
   ~/.extra
+  ~/.java
   ~/.amazon_web_services
   ~/.boot2docker/init
 )
