@@ -2,6 +2,9 @@
 # * ~/.path can be used to extend `$PATH`.
 # * ~/.extra can be used for other settings you don’t want to commit.
 
+# Load boxen environment, if present
+[ -f /opt/boxen/env.sh ] && source /opt/boxen/env.sh
+
 # .golang needs to run before .path
 declare -a extra_files=(
   ~/.golang
@@ -19,9 +22,6 @@ for extra_file in "${extra_files[@]}"; do
   [ -r "$extra_file" ] && source "$extra_file"
 done
 unset extra_file
-
-# Load boxen environment, if present
-[ -f /opt/boxen/env.sh ] && source /opt/boxen/env.sh
 
 # Case-insensitive globbing (used in pathname expansion)
 shopt -s nocaseglob
