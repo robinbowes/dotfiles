@@ -78,7 +78,7 @@ command -v rbenv &> /dev/null && eval "$(rbenv init -)"
 command -v nodenv &> /dev/null && eval "$(nodenv init -)"
 
 # initialize virtualenvwrapper
-command -p virtualenvwrapper.sh &> /dev/null && source "$(command -v virtualenvwrapper.sh)"
+command -v virtualenvwrapper.sh &> /dev/null && source virtualenvwrapper.sh
 
 # set up iTerm2 shell integration
 test -e ${HOME}/.iterm2_shell_integration.bash && source ${HOME}/.iterm2_shell_integration.bash
