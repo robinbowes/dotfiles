@@ -77,5 +77,8 @@ command -v rbenv &> /dev/null && eval "$(rbenv init -)"
 # initialize nodenv
 command -v nodenv &> /dev/null && eval "$(nodenv init -)"
 
+# initialise pyenv
+command -v pyenv-virtualenv-init > /dev/null && eval "$(pyenv virtualenv-init -)"
+
 # set up iTerm2 shell integration
 test -e ${HOME}/.iterm2_shell_integration.bash && source ${HOME}/.iterm2_shell_integration.bash
