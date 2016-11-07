@@ -65,9 +65,11 @@ complete -C aws_completer aws
 declare -a completion_files=(
   /etc/bash_completion
   /usr/share/bash-completion/bash_completion
-  /opt/boxen/homebrew/etc/bash_completion
 )
-for completion_file in "${completion_files[@]}"; do
+
+brew_bash_completion=$(command -v brew) && [[ -f "$brew_bash_completion" ]] && source "$brew_bash_completion"
+
+for completion_file in "${completion_files[@]}" ; do
   [ -f "$completion_file" ] && source "$completion_file"
 done
 
