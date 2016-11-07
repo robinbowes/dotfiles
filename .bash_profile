@@ -1,8 +1,10 @@
+#!/usr/bin/env bash
 # Load the shell dotfiles, and then some:
 # * ~/.path can be used to extend `$PATH`.
 # * ~/.extra can be used for other settings you don’t want to commit.
 
 # Load boxen environment, if present
+# shellcheck disable=SC1091
 [ -f /opt/boxen/env.sh ] && source /opt/boxen/env.sh
 
 # .golang needs to run before .path
@@ -18,6 +20,7 @@ declare -a extra_files=(
   ~/.amazon_web_services
 )
 for extra_file in "${extra_files[@]}"; do
+  # shellcheck disable=SC1090
   [ -r "$extra_file" ] && source "$extra_file"
 done
 unset extra_file
@@ -66,12 +69,13 @@ declare -a completion_files=(
   /etc/bash_completion
   /usr/share/bash-completion/bash_completion
 )
-
-brew_bash_completion=$(command -v brew) && [[ -f "$brew_bash_completion" ]] && source "$brew_bash_completion"
+command -v brew >/dev/null && completion_files+=("$(brew --prefix)/etc/bash_completion")
 
 for completion_file in "${completion_files[@]}" ; do
+  # shellcheck disable=SC1090
   [ -f "$completion_file" ] && source "$completion_file"
 done
+
 
 # initialize rbenv
 command -v rbenv &> /dev/null && eval "$(rbenv init -)"
@@ -80,7 +84,9 @@ command -v rbenv &> /dev/null && eval "$(rbenv init -)"
 command -v nodenv &> /dev/null && eval "$(nodenv init -)"
 
 # initialize virtualenvwrapper
+# shellcheck disable=SC1091
 command -v virtualenvwrapper.sh &> /dev/null && source virtualenvwrapper.sh
 
 # set up iTerm2 shell integration
-test -e ${HOME}/.iterm2_shell_integration.bash && source ${HOME}/.iterm2_shell_integration.bash
+# shellcheck disable=SC1090
+test -e "${HOME}/.iterm2_shell_integration.bash" && source "${HOME}/.iterm2_shell_integration.bash"
