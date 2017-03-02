@@ -1,4 +1,4 @@
-JAVA_VERSION=1.8.0_102
+JAVA_VERSION=1.8.0_112
 export JAVA_HOME="$(/usr/libexec/java_home -v $JAVA_VERSION)"
 
 GRADLE_VERSION=$(gradle --version | awk '/^Gradle/ {print $2}')
