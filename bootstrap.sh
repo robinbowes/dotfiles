@@ -2,6 +2,8 @@
 
 set -euo pipefail
 
+p1=${1:-}
+
 cd "$(dirname "${BASH_SOURCE[0]}")"
 git pull origin master
 
@@ -11,7 +13,7 @@ function doIt() {
 		--exclude "LICENSE-MIT.txt" -av --no-perms . ~
 }
 
-if [[ "$1" == "--force" ]] || [[ "$1" == "-f" ]]; then
+if [[ "$p1" == "--force" ]] || [[ "$p1" == "-f" ]]; then
 	doIt
 else
 	read -rp "This may overwrite existing files in your home directory. Are you sure? (y/n) " -n 1
