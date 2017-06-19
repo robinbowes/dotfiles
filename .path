@@ -1,12 +1,14 @@
 pathmunge () {
+    local dir="$1"
+    local pos=${2:-}
     case ":${PATH}:" in
-        *:"$1":*)
+        *:"$dir":*)
             ;;
         *)
-            if [ "$2" = "after" ] ; then
-                PATH=$PATH:$1
+            if [ "$pos" = "after" ] ; then
+                PATH="$PATH:$dir"
             else
-                PATH=$1:$PATH
+                PATH="$dir:$PATH"
             fi
     esac
 }
