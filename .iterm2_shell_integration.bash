@@ -12,6 +12,10 @@
 # tmux and screen are not supported; even using the tmux hack to get escape
 # codes passed through, ncurses interferes and the cursor isn't in the right
 # place at the time it's passed through.
+
+# set default for vars to work under set -u
+ITERM_SHELL_INTEGRATION_INSTALLED=${ITERM_SHELL_INTEGRATION_INSTALLED:-}
+
 if [[ "$TERM" != screen && "$ITERM_SHELL_INTEGRATION_INSTALLED" = "" && "$-" == *i* ]]; then
   ITERM_SHELL_INTEGRATION_INSTALLED=Yes
   # Saved copy of your PS1. This is used to detect if the user changes PS1
