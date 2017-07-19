@@ -25,6 +25,9 @@ pathmunge "$HOME/.nodenv/bin"
 # Add go bin to the path
 pathmunge "$GOPATH/bin"
 
+# add homebrew python to path
+pathmunge /usr/local/opt/python/libexec/bin
+
 # load any local path changes
 [ -r .path.local ] && source .path.local
 
