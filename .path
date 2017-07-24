@@ -29,7 +29,7 @@ pathmunge "$GOPATH/bin"
 pathmunge /usr/local/opt/python/libexec/bin
 
 # add php composer bin to path
-pathmunge "$HOME/.compose/vendor/bin"
+pathmunge "$HOME/.composer/vendor/bin"
 
 # load any local path changes
 [ -r .path.local ] && source .path.local
