@@ -28,6 +28,9 @@ pathmunge "$GOPATH/bin"
 # add homebrew python to path
 pathmunge /usr/local/opt/python/libexec/bin
 
+# add php composer bin to path
+pathmunge "$HOME/.compose/vender/bin"
+
 # load any local path changes
 [ -r .path.local ] && source .path.local
 
