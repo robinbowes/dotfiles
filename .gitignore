@@ -20,6 +20,3 @@ ehthumbs.db
 *~
 \#*\#
 tags
-
-# vim submodules
-.vim/bundle/*
