@@ -1,5 +1,7 @@
 #!/bin/bash
 
+ITERM_ENABLE_SHELL_INTEGRATION_WITH_TMUX=${ITERM_ENABLE_SHELL_INTEGRATION_WITH_TMUX:-}
+
 # -- BEGIN ITERM2 CUSTOMIZATIONS --
 if [[ "$ITERM_ENABLE_SHELL_INTEGRATION_WITH_TMUX""$TERM" != screen && "$ITERM_SHELL_INTEGRATION_INSTALLED" = "" && "$-" == *i* ]]; then
 ITERM_SHELL_INTEGRATION_INSTALLED=Yes
@@ -106,7 +108,7 @@ __bp_adjust_histcontrol() {
 __bp_preexec_interactive_mode=""
 
 __bp_trim_whitespace() {
-    local var=$@
+    local var=$*
     var="${var#"${var%%[![:space:]]*}"}"   # remove leading whitespace characters
     var="${var%"${var##*[![:space:]]}"}"   # remove trailing whitespace characters
     echo -n "$var"
@@ -126,7 +128,7 @@ __bp_precmd_invoke_cmd() {
     # -- begin part 1/2 of iterm2 customization -- not yet upstream -- see issue 6398
     local saved_ifs
     saved_ifs="$IFS"
-    IFS=$(printf " \t\n")
+    IFS=$(printf " \\t\\n")
     # -- end part 1/2 of iterm2 customization -- not yet upstream -- see issue 6398
 
     # Save the returned value from our last command
@@ -152,7 +154,7 @@ __bp_precmd_invoke_cmd() {
 # precmd functions. This is available for instance in zsh. We can simulate it in bash
 # by setting the value here.
 __bp_set_ret_value() {
-    return $1
+    return "$1"
 }
 
 __bp_in_prompt_command() {
@@ -190,7 +192,7 @@ __bp_preexec_invoke_exec() {
     # Checks if the file descriptor is not standard out (i.e. '1')
     # __bp_delay_install checks if we're in test. Needed for bats to run.
     # Prevents preexec from being invoked for functions in PS1
-    if [[ ! -t 1 && -z "$__bp_delay_install" ]]; then
+    if [[ ! -t 1 && -z "${__bp_delay_install:-}" ]]; then
         return
     fi
 
@@ -222,7 +224,7 @@ __bp_preexec_invoke_exec() {
     fi
 
     local this_command
-    this_command=$(HISTTIMEFORMAT= builtin history 1 | { read -r _ this_command; echo "$this_command"; })
+    this_command=$(HISTTIMEFORMAT='' builtin history 1 | { read -r _ this_command; echo "$this_command"; })
 
     # Sanity check to make sure we have something to invoke our function with.
     if [[ -z "$this_command" ]]; then
@@ -298,7 +300,7 @@ __bp_install() {
     # backgrounded subshell commands (e.g. (pwd)& ). Believe this is a bug in Bash.
     #
     # Disabling this by default. It can be enabled by setting this variable.
-    if [[ -n "$__bp_enable_subshells" ]]; then
+    if [[ -n "${__bp_enable_subshells:-}" ]]; then
 
         # Set so debug trap will work be invoked in subshells.
         set -o functrace > /dev/null 2>&1
@@ -362,11 +364,11 @@ function __bp_adjust_histcontrol() {
 }
 
 function iterm2_begin_osc {
-  printf "\033]"
+  printf "\\033]"
 }
 
 function iterm2_end_osc {
-  printf "\007"
+  printf "\\007"
 }
 
 function iterm2_print_state_data() {
@@ -384,7 +386,7 @@ function iterm2_print_state_data() {
 # Usage: iterm2_set_user_var key value
 function iterm2_set_user_var() {
   iterm2_begin_osc
-  printf "1337;SetUserVar=%s=%s" "$1" $(printf "%s" "$2" | base64 | tr -d '\n')
+  printf "1337;SetUserVar=%s=%s" "$1" "$(printf "%s" "$2" | base64 | tr -d '\n')"
   iterm2_end_osc
 }
 
@@ -425,9 +427,9 @@ function iterm2_print_version_number() {
 
 # If hostname -f is slow on your system, set iterm2_hostname before sourcing this script.
 if [ -z "${iterm2_hostname:-}" ]; then
-  iterm2_hostname=$(hostname -f 2>/dev/null)
+  if ! iterm2_hostname=$(hostname -f 2>/dev/null) ; then
   # some flavors of BSD (i.e. NetBSD and OpenBSD) don't have the -f option
-  if [ $? -ne 0 ]; then
+#  if [ $? -ne 0 ]; then
     iterm2_hostname=$(hostname)
   fi
 fi
@@ -443,7 +445,7 @@ __iterm2_preexec() {
     # If PS1 still has the value we set it to in iterm2_preexec_invoke_cmd then
     # restore it to its original value. It might have changed if you have
     # another PROMPT_COMMAND (like liquidprompt) that modifies PS1.
-    if [ -n "${ITERM_ORIG_PS1+xxx}" -a "$PS1" = "$ITERM_PREV_PS1" ]
+    if [ -n "${ITERM_ORIG_PS1+xxx}" ] && [ "$PS1" = "$ITERM_PREV_PS1" ]
     then
       export PS1="$ITERM_ORIG_PS1"
     fi
@@ -504,10 +506,11 @@ function __iterm2_precmd () {
     fi
 
     # Get the value of the prompt prefix, which will change $?
-    \local iterm2_prompt_prefix_value="$(iterm2_prompt_prefix)"
+    \local iterm2_prompt_prefix_value
+    iterm2_prompt_prefix_value="$(iterm2_prompt_prefix)"
 
     # Add the mark unless the prompt includes '$(iterm2_prompt_mark)' as a substring.
-    if [[ $ITERM_ORIG_PS1 != *'$(iterm2_prompt_mark)'* ]]
+    if [[ $ITERM_ORIG_PS1 != *"$(iterm2_prompt_mark)"* ]]
     then
       iterm2_prompt_prefix_value="$iterm2_prompt_prefix_value$(iterm2_prompt_mark)"
     fi
@@ -519,7 +522,8 @@ function __iterm2_precmd () {
     __bp_set_ret_value "$__iterm2_last_ret_value" "$__bp_last_argument_prev_command"
 
     # Set PS1 to various escape sequences, the user's preferred prompt, and more escape sequences.
-    export PS1="\[$iterm2_prompt_prefix_value\]$ITERM_ORIG_PS1\[$(iterm2_prompt_suffix)\]"
+    PS1="\\[$iterm2_prompt_prefix_value\\]$ITERM_ORIG_PS1\\[$(iterm2_prompt_suffix)\\]"
+    export PS1
 
     # Save the value we just set PS1 to so if the user changes PS1 we'll know and we can update ITERM_ORIG_PS1.
     export ITERM_PREV_PS1="$PS1"
