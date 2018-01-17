@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # -- BEGIN ITERM2 CUSTOMIZATIONS --
-if [[ "$TERM" != screen && "$ITERM_SHELL_INTEGRATION_INSTALLED" = "" && "$-" == *i* ]]; then
+if [[ "$ITERM_ENABLE_SHELL_INTEGRATION_WITH_TMUX""$TERM" != screen && "$ITERM_SHELL_INTEGRATION_INSTALLED" = "" && "$-" == *i* ]]; then
 ITERM_SHELL_INTEGRATION_INSTALLED=Yes
 # Saved copy of your PS1. This is used to detect if the user changes PS1
 # directly. ITERM_PREV_PS1 will hold the last value that this script set PS1 to
@@ -123,6 +123,11 @@ __bp_interactive_mode() {
 # This function is installed as part of the PROMPT_COMMAND.
 # It will invoke any functions defined in the precmd_functions array.
 __bp_precmd_invoke_cmd() {
+    # -- begin part 1/2 of iterm2 customization -- not yet upstream -- see issue 6398
+    local saved_ifs
+    saved_ifs="$IFS"
+    IFS=$(printf " \t\n")
+    # -- end part 1/2 of iterm2 customization -- not yet upstream -- see issue 6398
 
     # Save the returned value from our last command
     __bp_last_ret_value="$?"
@@ -138,6 +143,9 @@ __bp_precmd_invoke_cmd() {
             $precmd_function
         fi
     done
+    # -- begin part 2/2 of iterm2 customization -- not yet upstream -- see issue 6398
+    IFS="$saved_ifs"
+    # -- end part 2/2 of iterm2 customization -- not yet upstream -- see issue 6398
 }
 
 # Sets a return value in $?. We may want to get access to the $? variable in our
@@ -214,7 +222,7 @@ __bp_preexec_invoke_exec() {
     fi
 
     local this_command
-    this_command=$(HISTTIMEFORMAT= history 1 | { read -r _ this_command; echo "$this_command"; })
+    this_command=$(HISTTIMEFORMAT= builtin history 1 | { read -r _ this_command; echo "$this_command"; })
 
     # Sanity check to make sure we have something to invoke our function with.
     if [[ -z "$this_command" ]]; then
@@ -346,6 +354,13 @@ fi;
 
 # -- BEGIN ITERM2 CUSTOMIZATIONS --
 
+# We don't care about whitespace, but users care about not changing their histcontrol variables.
+# We overwrite the upstream __bp_adjust_histcontrol function whcih gets called from the next
+# PROMPT_COMMAND invocation.
+function __bp_adjust_histcontrol() {
+  true
+}
+
 function iterm2_begin_osc {
   printf "\033]"
 }
@@ -403,14 +418,18 @@ function iterm2_prompt_suffix() {
 
 function iterm2_print_version_number() {
   iterm2_begin_osc
-  printf "1337;ShellIntegrationVersion=5;shell=bash"
+  printf "1337;ShellIntegrationVersion=9;shell=bash"
   iterm2_end_osc
 }
 
 
 # If hostname -f is slow on your system, set iterm2_hostname before sourcing this script.
 if [ -z "${iterm2_hostname:-}" ]; then
-  iterm2_hostname=$(hostname -f)
+  iterm2_hostname=$(hostname -f 2>/dev/null)
+  # some flavors of BSD (i.e. NetBSD and OpenBSD) don't have the -f option
+  if [ $? -ne 0 ]; then
+    iterm2_hostname=$(hostname)
+  fi
 fi
 
 # Runs after interactively edited command but before execution
