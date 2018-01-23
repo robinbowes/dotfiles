@@ -16,9 +16,6 @@ pathmunge () {
 # Add `~/bin` to the `$PATH`
 pathmunge "$HOME/bin"
 
-# Add rbenv to the path
-pathmunge "$HOME/.rbenv/bin"
-
 # Add nodenv to the path
 pathmunge "$HOME/.nodenv/bin"
 
