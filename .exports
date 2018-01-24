@@ -29,3 +29,7 @@ export MANPAGER="less -X"
 
 # Link Homebrew casks in `/Applications` rather than `~/Applications`
 export HOMEBREW_CASK_OPTS="--appdir=/Applications"
+
+# Fix up for kr and assh
+# see: https://krypt.co/docs/use-krypton-with/advanced-ssh.html
+export KR_SKIP_SSH_CONFIG=1
