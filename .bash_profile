@@ -76,12 +76,14 @@ for completion_file in "${completion_files[@]}" ; do
   [ -f "$completion_file" ] && source "$completion_file"
 done
 
+# initialize nodenv
+command -v nodenv &> /dev/null && eval "$(nodenv init -)"
+
+# initialise pyenv
+command -v pyenv &> /dev/null && eval "$(pyenv init -)"
 
 # initialize rbenv
 command -v rbenv &> /dev/null && eval "$(rbenv init -)"
-
-# initialize nodenv
-command -v nodenv &> /dev/null && eval "$(nodenv init -)"
 
 # initialize virtualenvwrapper
 # shellcheck disable=SC1091
