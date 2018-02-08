@@ -25,4 +25,4 @@ fi
 unset doIt
 
 # shellcheck source=/dev/null
-source ~/.bash_profile
+. ~/.bash_profile

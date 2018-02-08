@@ -5,7 +5,7 @@
 
 # Load boxen environment, if present
 # shellcheck disable=SC1091
-[ -f /opt/boxen/env.sh ] && source /opt/boxen/env.sh
+[ -f /opt/boxen/env.sh ] && . /opt/boxen/env.sh
 
 # .golang needs to run before .path
 declare -a extra_files=(
@@ -21,7 +21,7 @@ declare -a extra_files=(
 )
 for extra_file in "${extra_files[@]}"; do
   # shellcheck disable=SC1090
-  [ -r "$extra_file" ] && source "$extra_file"
+  [ -r "$extra_file" ] && . "$extra_file"
 done
 unset extra_file
 

@@ -29,6 +29,6 @@ pathmunge /usr/local/opt/python/libexec/bin
 pathmunge "$HOME/.composer/vendor/bin"
 
 # load any local path changes
-[ -r .path.local ] && source .path.local
+[ -r .path.local ] && . .path.local
 
 unset pathmunge

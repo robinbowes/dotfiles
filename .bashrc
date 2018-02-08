@@ -1,12 +1,14 @@
-[ -n "$PS1" ] && source ~/.bash_profile
+# shellcheck disable=SC1090
+[ -n "$PS1" ] && . ~/.bash_profile
 
 # are we an interactive shell?
 if [ "$PS1" ]; then
 
-  HOSTNAME=`hostname -s || echo unknown`
+  HOSTNAME=$(hostname -s || echo unknown)
 
   # add cd history function
-  [[ -f ${HOME}/bin/acd_func.sh ]] && . ${HOME}/bin/acd_func.sh
+  # shellcheck disable=SC1090
+  [[ -f ${HOME}/bin/acd_func.sh ]] && . "${HOME}/bin/acd_func.sh"
   ##################################
   # BEG History manipulation section
 
@@ -16,7 +18,8 @@ if [ "$PS1" ]; then
 
     # Dump the history file after every command
     shopt -s histappend
-    [[ -f ${HOME}/bin/a_loghistory_func.sh ]] && . ${HOME}/bin/a_loghistory_func.sh
+    # shellcheck disable=SC1090
+    [[ -f ${HOME}/bin/a_loghistory_func.sh ]] && . "${HOME}/bin/a_loghistory_func.sh"
 
     # Specific history file per host
     export HISTFILE=$HOME/.history-$HOSTNAME
@@ -24,7 +27,7 @@ if [ "$PS1" ]; then
     save_last_command () {
         # Only want to do this once per process
         if [ -z "$SAVE_LAST" ]; then
-            EOS=" # end session $USER@${HOSTNAME}:`tty`"
+            EOS=" # end session $USER@${HOSTNAME}:$(tty)"
             export SAVE_LAST="done"
             if type _loghistory >/dev/null 2>&1; then
                 _loghistory
@@ -32,7 +35,7 @@ if [ "$PS1" ]; then
             else
                 history -a
             fi
-            /bin/echo -e "#`date +%s`\n$EOS" >> ${HISTFILE}
+            /bin/echo -e "#$(date +%s)\\n$EOS" >> "${HISTFILE}"
         fi
     }
     trap 'save_last_command' EXIT
@@ -42,6 +45,6 @@ if [ "$PS1" ]; then
 
   # Preload the working directory history list from the directory history
   if type -t hd >/dev/null && type -t cd_func >/dev/null; then
-      { hd 20 ; pwd ; } | while read x ; do cd_func "$x" ; done
+      { hd 20 ; pwd ; } | while read -r x ; do cd_func "$x" ; done
   fi
 fi
