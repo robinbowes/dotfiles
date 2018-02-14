@@ -82,6 +82,9 @@ command -v nodenv &> /dev/null && eval "$(nodenv init -)"
 # initialise pyenv
 command -v pyenv &> /dev/null && eval "$(pyenv init -)"
 
+# initialise pyenv-virtualenv
+command -v pyenv-virtualenv-init &> /dev/null && eval "$(pyenv virtualenv-init -)"
+
 # initialize rbenv
 command -v rbenv &> /dev/null && eval "$(rbenv init -)"
 
