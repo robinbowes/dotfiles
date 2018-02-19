@@ -68,6 +68,11 @@ complete -C aws_completer aws
 declare -a completion_files=(
   /etc/bash_completion
   /usr/share/bash-completion/bash_completion
+  /usr/local/etc/bash_completion.d/brew
+  /usr/local/etc/bash_completion.d/git-completion.bash
+  /usr/local/etc/bash_completion.d/git-prompt.sh
+  /usr/local/etc/bash_completion.d/pyenv.bash
+  /usr/local/etc/bash_completion.d/tmux
 )
 command -v brew >/dev/null && completion_files+=("$(brew --prefix)/etc/bash_completion")
 
