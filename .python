@@ -1,0 +1,9 @@
+# initialise pyenv
+command -v pyenv &> /dev/null && eval "$(pyenv init -)"
+
+# initialise pyenv-virtualenv
+command -v pyenv-virtualenv-init &> /dev/null && eval "$(pyenv virtualenv-init -)"
+
+# initialize virtualenvwrapper
+# shellcheck disable=SC1091
+command -v virtualenvwrapper.sh &> /dev/null && source virtualenvwrapper.sh

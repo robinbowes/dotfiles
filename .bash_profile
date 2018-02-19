@@ -9,6 +9,7 @@
 
 # .golang needs to run before .path
 declare -a extra_files=(
+  ~/.python
   ~/.golang
   ~/.path
   ~/.bash_prompt
@@ -84,18 +85,8 @@ done
 # initialize nodenv
 command -v nodenv &> /dev/null && eval "$(nodenv init -)"
 
-# initialise pyenv
-command -v pyenv &> /dev/null && eval "$(pyenv init -)"
-
-# initialise pyenv-virtualenv
-command -v pyenv-virtualenv-init &> /dev/null && eval "$(pyenv virtualenv-init -)"
-
 # initialize rbenv
 command -v rbenv &> /dev/null && eval "$(rbenv init -)"
-
-# initialize virtualenvwrapper
-# shellcheck disable=SC1091
-command -v virtualenvwrapper.sh &> /dev/null && source virtualenvwrapper.sh
 
 # set up iTerm2 shell integration
 # shellcheck disable=SC1090
