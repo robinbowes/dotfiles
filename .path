@@ -22,9 +22,6 @@ pathmunge "$HOME/.nodenv/bin"
 # Add go bin to the path
 pathmunge "$GOPATH/bin"
 
-# add homebrew python to path
-pathmunge /usr/local/opt/python/libexec/bin
-
 # add php composer bin to path
 pathmunge "$HOME/.composer/vendor/bin"
 
