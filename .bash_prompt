@@ -23,7 +23,7 @@ function parse_svn_branch {
 }
 
 function parse_aws_user {
-    [ -n "$AWSUSER" ] && echo -e "$AWSUSER "
+    [[ -n ${AWSUSER:-''} ]] && echo -e "$AWSUSER "
 }
 
 function prompt {
