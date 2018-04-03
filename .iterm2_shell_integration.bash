@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # -- BEGIN ITERM2 CUSTOMIZATIONS --
 if [[ "$ITERM_ENABLE_SHELL_INTEGRATION_WITH_TMUX""$TERM" != screen && "$ITERM_SHELL_INTEGRATION_INSTALLED" = "" && "$-" == *i* ]]; then
@@ -198,7 +198,7 @@ __bp_preexec_invoke_exec() {
         return
     fi
 
-    if [[ -n "$COMP_LINE" ]]; then
+    if [[ -n ${COMP_LINE:-''} ]]; then
         # We're in the middle of a completer. This obviously can't be
         # an interactively issued command.
         return
