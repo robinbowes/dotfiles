@@ -8,6 +8,7 @@
 [ -f /opt/boxen/env.sh ] && . /opt/boxen/env.sh
 
 OLD_GITPROMPT="${OLD_GITPROMPT:-}"
+PS1="${PS1:-}"
 
 # .golang needs to run before .path
 declare -a extra_files=(
