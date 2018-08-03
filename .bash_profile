@@ -9,10 +9,10 @@
 
 # .golang needs to run before .path
 declare -a extra_files=(
-  ~/.python
   ~/.golang
   ~/.path
   ~/.bash_prompt
+  ~/.python
   ~/.exports
   ~/.aliases
   ~/.functions
