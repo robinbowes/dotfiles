@@ -60,10 +60,14 @@ complete -W "NSGlobalDomain" defaults
 complete -o "nospace" -W "Contacts Calendar Dock Finder Mail Safari iTunes SystemUIServer Terminal Twitter" killall
 
 # Autocomplete Grunt commands
-which grunt &> /dev/null && eval "$(grunt --completion=bash)"
+command -v grunt &> /dev/null && eval "$(grunt --completion=bash)"
 
 # Add completion for awscli
 complete -C aws_completer aws
+
+# Add completion for tfschema, if installed
+tfschema_bin=$(command -v tfschema || true)
+[[ -n $tfschema_bin ]] && complete -C "$tfschema_bin" tfschema
 
 # If possible, add tab completion for many more commands
 declare -a completion_files=(
