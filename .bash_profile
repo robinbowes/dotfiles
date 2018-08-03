@@ -9,6 +9,7 @@
 
 OLD_GITPROMPT="${OLD_GITPROMPT:-}"
 PS1="${PS1:-}"
+GIT_PROMPT_OLD_DIR_WAS_GIT="${GIT_PROMPT_OLD_DIR_WAS_GIT:-}"
 
 # .golang needs to run before .path
 declare -a extra_files=(
