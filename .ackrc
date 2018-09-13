@@ -1,1 +1,2 @@
 --type-set=puppet:ext:pp
+--ignore-directory=.terragrunt-cache
