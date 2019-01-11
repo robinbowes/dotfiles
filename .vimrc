@@ -133,6 +133,7 @@ let g:syntastic_check_on_wq = 1
 
 let g:syntastic_enable_perl_checker = 1
 let g:syntastic_python_checkers = ['flake8']
+let g:syntastic_sh_shellcheck_args="-x"
 
 " run terraform fmt on save
 let g:terraform_fmt_on_save = 1
