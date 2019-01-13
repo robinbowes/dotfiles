@@ -13,9 +13,6 @@
 [submodule ".vim/bundle/syntastic"]
 	path = .vim/bundle/syntastic
 	url = https://github.com/scrooloose/syntastic.git
-[submodule ".vim/bundle/editorconfig-vim"]
-	path = .vim/bundle/editorconfig-vim
-	url = https://github.com/editorconfig/editorconfig-vim
 [submodule ".vim/bundle/vim-perl"]
 	path = .vim/bundle/vim-perl
 	url = https://github.com/vim-perl/vim-perl.git
