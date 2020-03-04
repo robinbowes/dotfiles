@@ -2,6 +2,7 @@
 command -v pyenv &> /dev/null && eval "$(pyenv init -)"
 
 # initialise pyenv-virtualenv
+export PYENV_VIRTUALENV_DISABLE_PROMPT=1
 command -v pyenv-virtualenv-init &> /dev/null && eval "$(pyenv virtualenv-init -)"
 
 # initialize virtualenvwrapper
