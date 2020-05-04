@@ -37,3 +37,6 @@
 [submodule ".vim/bundle/yapf"]
 	path = .vim/bundle/yapf
 	url = https://github.com/google/yapf
+[submodule ".vim/bundle/bats.vim"]
+	path = .vim/bundle/bats.vim
+	url = https://github.com/vim-scripts/bats.vim
