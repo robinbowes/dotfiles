@@ -14,7 +14,7 @@ export HISTIGNORE="ls:ls -al:ll:history:h:h[dh]:h [0-9]*:h[dh] [0-9]*"
 export HISTTIMEFORMAT="[%F %T] ~~~ "
 
 # Prefer US English and use UTF-8
-export LANG="en_GB"
+export LANG="en_GB.UTF-8"
 export LC_ALL="en_GB.UTF-8"
 
 # allow less to look inside many file types
