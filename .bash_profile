@@ -23,6 +23,7 @@ declare -a extra_files=(
   ~/.extra
   ~/.java
   ~/.amazon_web_services
+  ~/.jqconfig
 )
 for extra_file in "${extra_files[@]}"; do
   # shellcheck disable=SC1090
