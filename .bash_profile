@@ -7,6 +7,9 @@
 # shellcheck disable=SC1091
 [ -f /opt/boxen/env.sh ] && . /opt/boxen/env.sh
 
+# new pyenv initialisation
+eval "$(pyenv init --path)"
+
 OLD_GITPROMPT="${OLD_GITPROMPT:-}"
 PS1="${PS1:-}"
 GIT_PROMPT_OLD_DIR_WAS_GIT="${GIT_PROMPT_OLD_DIR_WAS_GIT:-}"
