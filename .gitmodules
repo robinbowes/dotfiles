@@ -43,3 +43,9 @@
 [submodule ".vim/bundle/bats.vim.syntax"]
 	path = .vim/bundle/bats.vim.syntax
 	url = https://github.com/aliou/bats.vim.git
+[submodule ".vim/bundle/simpylfold"]
+	path = .vim/bundle/simpylfold
+	url = https://github.com/tmhedberg/simpylfold
+[submodule ".vim/bundle/fastfold"]
+	path = .vim/bundle/fastfold
+	url = https://github.com/konfekt/fastfold
