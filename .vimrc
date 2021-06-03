@@ -137,3 +137,6 @@ let g:syntastic_sh_shellcheck_args="-x"
 
 " run terraform fmt on save
 let g:terraform_fmt_on_save = 1
+
+" enable docstring preview in SimplyFold (python files)
+let g:SimpylFold_docstring_preview = 1
