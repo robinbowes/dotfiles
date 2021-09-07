@@ -26,11 +26,12 @@ declare -a extra_files=(
   ~/.extra
   ~/.java
   ~/.amazon_web_services
+  ~/.google_cloud_platform
   ~/.jqconfig
 )
 for extra_file in "${extra_files[@]}"; do
   # shellcheck disable=SC1090
-  [ -r "$extra_file" ] && . "$extra_file"
+  [[ -r $extra_file ]] && . "$extra_file"
 done
 unset extra_file
 
@@ -69,9 +70,6 @@ complete -o "nospace" -W "Contacts Calendar Dock Finder Mail Safari iTunes Syste
 
 # Autocomplete Grunt commands
 command -v grunt &> /dev/null && eval "$(grunt --completion=bash)"
-
-# Add completion for awscli
-complete -C aws_completer aws
 
 # Add completion for tfschema, if installed
 tfschema_bin=$(command -v tfschema || true)

@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+gcp_root=/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk
+gcp_completion_include="$gcp_root"/completion.bash.inc
+gcp_path_include="$gcp_root"/path.bash.inc
+
+for gcp_file in "$gcp_completion_include" "$gcp_path_include"; do
+  # shellcheck disable=SC1090
+  [[ -r $gcp_file ]] && . "$gcp_file"
+done
+unset gcp_file
