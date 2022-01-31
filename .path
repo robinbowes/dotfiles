@@ -13,9 +13,6 @@ pathmunge () {
     esac
 }
 
-# Java (OpenJDK)
-pathmunge /usr/local/opt/openjdk/bin
-
 # Add go bin to the path
 pathmunge "$GOPATH/bin"
 
