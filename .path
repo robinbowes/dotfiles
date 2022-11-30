@@ -19,6 +19,9 @@ pathmunge "$GOPATH/bin"
 # Add `~/bin` to the `$PATH`
 pathmunge "$HOME/bin"
 
+# add default pipx binary location to path
+pathmunge "$HOME/.local/bin"
+
 # Add nodenv to the path
 # pathmunge "$HOME/.nodenv/bin"
 
