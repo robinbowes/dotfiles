@@ -22,6 +22,9 @@ pathmunge "$HOME/bin"
 # add default pipx binary location to path
 pathmunge "$HOME/.local/bin"
 
+# add Homebrew sbin location
+pathmunge "/usr/local/sbin"
+
 # Add nodenv to the path
 # pathmunge "$HOME/.nodenv/bin"
 
