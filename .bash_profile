@@ -28,6 +28,7 @@ declare -a extra_files=(
   ~/.amazon_web_services
   ~/.google_cloud_platform
   ~/.jqconfig
+  ~/.condo_init
 )
 for extra_file in "${extra_files[@]}"; do
   # shellcheck disable=SC1090
