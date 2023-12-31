@@ -29,6 +29,7 @@ declare -a extra_files=(
   ~/.google_cloud_platform
   ~/.jqconfig
   ~/.nvm/load_nvm
+  ~/.gcp
 #  ~/.condo_init
 )
 for extra_file in "${extra_files[@]}"; do
@@ -103,3 +104,4 @@ command -v rbenv &> /dev/null && eval "$(rbenv init -)"
 # set up iTerm2 shell integration
 # shellcheck disable=SC1090
 test -e "${HOME}/.iterm2_shell_integration.bash" && source "${HOME}/.iterm2_shell_integration.bash"
+
