@@ -10,9 +10,9 @@
 # new pyenv initialisation
 eval "$(pyenv init --path)"
 
-OLD_GITPROMPT="${OLD_GITPROMPT:-}"
-PS1="${PS1:-}"
-GIT_PROMPT_OLD_DIR_WAS_GIT="${GIT_PROMPT_OLD_DIR_WAS_GIT:-}"
+#OLD_GITPROMPT="${OLD_GITPROMPT:-}"
+#PS1="${PS1:-}"
+#GIT_PROMPT_OLD_DIR_WAS_GIT="${GIT_PROMPT_OLD_DIR_WAS_GIT:-}"
 
 # .golang needs to run before .path
 declare -a extra_files=(
@@ -36,7 +36,7 @@ for extra_file in "${extra_files[@]}"; do
   # shellcheck disable=SC1090
   [[ -r $extra_file ]] && . "$extra_file"
 done
-unset extra_file
+unset extra_files
 
 # Case-insensitive globbing (used in pathname expansion)
 shopt -s nocaseglob
@@ -103,5 +103,8 @@ command -v rbenv &> /dev/null && eval "$(rbenv init -)"
 
 # set up iTerm2 shell integration
 # shellcheck disable=SC1090
-test -e "${HOME}/.iterm2_shell_integration.bash" && source "${HOME}/.iterm2_shell_integration.bash"
+[[ -e "${HOME}/.iterm2_shell_integration.bash" ]] && . "${HOME}/.iterm2_shell_integration.bash"
 
+command -v fzf &>/dev/null && eval "$(fzf --bash)"
+
+if [ -f ~/.bashrc ]; then . ~/.bashrc; fi

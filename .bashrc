@@ -1,9 +1,5 @@
-# shellcheck disable=SC1090
-[ -n "$PS1" ] && . ~/.bash_profile
-
 # are we an interactive shell?
 if [ "$PS1" ]; then
-
   HOSTNAME=$(hostname -s || echo unknown)
 
   # add cd history function
@@ -48,3 +44,5 @@ if [ "$PS1" ]; then
       { hd 20 ; pwd ; } | while read -r x ; do cd_func "$x" ; done
   fi
 fi
+
+command -v starship &>/dev/null && eval "$(starship init bash)"
