@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+
 # Load the shell dotfiles, and then some:
 # * ~/.path can be used to extend `$PATH`.
 # * ~/.extra can be used for other settings you don’t want to commit.
@@ -9,10 +10,6 @@
 
 # new pyenv initialisation
 eval "$(pyenv init --path)"
-
-#OLD_GITPROMPT="${OLD_GITPROMPT:-}"
-#PS1="${PS1:-}"
-#GIT_PROMPT_OLD_DIR_WAS_GIT="${GIT_PROMPT_OLD_DIR_WAS_GIT:-}"
 
 # .golang needs to run before .path
 declare -a extra_files=(
@@ -38,28 +35,8 @@ for extra_file in "${extra_files[@]}"; do
 done
 unset extra_files
 
-# Case-insensitive globbing (used in pathname expansion)
-shopt -s nocaseglob
-
-# Append to the Bash history file, rather than overwriting it
-shopt -s histappend
-
-# Autocorrect typos in path names when using `cd`
-shopt -s cdspell
-
-# check the window size after each command and, if necessary,
-# update the values of LINES and COLUMNS.
-shopt -s checkwinsize
-
 # make less more friendly for non-text input files, see lesspipe(1)
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
-
-# Enable some Bash 4 features when possible:
-# * `autocd`, e.g. `**/qux` will enter `./foo/bar/baz/qux`
-# * Recursive globbing, e.g. `echo **/*.txt`
-for option in autocd globstar; do
-	shopt -s "$option" 2> /dev/null
-done
 
 # Add tab completion for SSH hostnames based on ~/.ssh/config, ignoring wildcards
 [ -e "$HOME/.ssh/config" ] && complete -o "default" -o "nospace" -W "$(grep "^Host" ~/.ssh/config | grep -v "[?*]" | cut -d " " -f2 | tr ' ' '\n')" scp sftp ssh
@@ -107,4 +84,5 @@ command -v rbenv &> /dev/null && eval "$(rbenv init -)"
 
 command -v fzf &>/dev/null && eval "$(fzf --bash)"
 
-if [ -f ~/.bashrc ]; then . ~/.bashrc; fi
+# Cross-shell prompt: https://starship.rs
+command -v starship &>/dev/null && eval "$(starship init bash)"
