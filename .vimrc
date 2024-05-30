@@ -1,7 +1,8 @@
 " Use bash from the path (/bin/bash is 3.x on MacOS)
 set shell=/usr/bin/env\ bash
+
+" Use native vim packages (requires vim 8+)
 packloadall
-" execute pathogen#infect()
 
 " ------------------------------------------------------
 " set in vim-sensible
@@ -151,6 +152,8 @@ if has("autocmd")
 	autocmd BufNewFile,BufRead *.json setfiletype json syntax=javascript
 	autocmd BufEnter * let &titlestring = $HOSTNAME . ":" . expand("%:p:~")
   autocmd FileType make setlocal noexpandtab
+  " Add formatting command for python files
+  autocmd FileType python nnoremap <leader>y :0,$!yapf<Cr><C-o>
 endif
 
 " Colours

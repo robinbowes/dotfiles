@@ -1,54 +1,39 @@
-[submodule ".vim/bundle/tabular"]
-	path = .vim/bundle/tabular
-	url = https://github.com/godlygeek/tabular.git
-[submodule ".vim/bundle/vim-colors-solarized"]
-	path = .vim/bundle/vim-colors-solarized
-	url = https://github.com/altercation/vim-colors-solarized.git
-[submodule ".vim/bundle/vim-puppet"]
-	path = .vim/bundle/vim-puppet
-	url = https://github.com/voxpupuli/vim-puppet.git
-[submodule ".vim/bundle/vim-sensible"]
-	path = .vim/bundle/vim-sensible
-	url = https://github.com/tpope/vim-sensible.git
-[submodule ".vim/bundle/syntastic"]
-	path = .vim/bundle/syntastic
-	url = https://github.com/scrooloose/syntastic.git
-[submodule ".vim/bundle/vim-perl"]
-	path = .vim/bundle/vim-perl
-	url = https://github.com/vim-perl/vim-perl.git
-[submodule ".vim/bundle/vim-terraform"]
-	path = .vim/bundle/vim-terraform
-	url = https://github.com/hashivim/vim-terraform.git
-[submodule ".vim/bundle/vim-bracketed-paste"]
-	path = .vim/bundle/vim-bracketed-paste
-	url = https://github.com/ConradIrwin/vim-bracketed-paste
-[submodule ".vim/bundle/vim-flake8"]
-	path = .vim/bundle/vim-flake8
-	url = https://github.com/nvie/vim-flake8.git
-[submodule ".vim/bundle/vim-fugitive"]
-	path = .vim/bundle/vim-fugitive
-	url = https://github.com/tpope/vim-fugitive.git
-[submodule ".vim/bundle/nerdtree"]
-	path = .vim/bundle/nerdtree
-	url = https://github.com/scrooloose/nerdtree.git
-[submodule ".vim/bundle/editorconfig-vim"]
-	path = .vim/bundle/editorconfig-vim
-	url = https://github.com/editorconfig/editorconfig-vim
-[submodule ".vim/bundle/yapf"]
-	path = .vim/bundle/yapf
-	url = https://github.com/google/yapf
-[submodule ".vim/bundle/bats.vim"]
-	path = .vim/bundle/bats.vim
-	url = https://github.com/vim-scripts/bats.vim
-[submodule ".vim/bundle/bats.vim.syntax"]
-	path = .vim/bundle/bats.vim.syntax
-	url = https://github.com/aliou/bats.vim.git
-[submodule ".vim/bundle/simpylfold"]
-	path = .vim/bundle/simpylfold
-	url = https://github.com/tmhedberg/simpylfold
-[submodule ".vim/bundle/fastfold"]
-	path = .vim/bundle/fastfold
-	url = https://github.com/konfekt/fastfold
-[submodule ".vim/pack/plugins/sensible"]
-	path = .vim/pack/plugins/sensible
+[submodule ".vim/pack/tpope/start/sensible"]
+	path = .vim/pack/tpope/start/sensible
 	url = https://tpope.io/vim/sensible.git
+[submodule ".vim/pack/godlygeek/start/tabular"]
+	path = .vim/pack/godlygeek/start/tabular
+	url = https://github.com/godlygeek/tabular.git
+[submodule ".vim/pack/rodjek/start/vim-puppet"]
+	path = .vim/pack/rodjek/start/vim-puppet
+	url = https://github.com/rodjek/vim-puppet.git
+[submodule ".vim/pack/dense-analysis/start/ale"]
+	path = .vim/pack/dense-analysis/start/ale
+	url = https://github.com/dense-analysis/ale.git
+[submodule ".vim/pack/vim-perl/start/vim-perl"]
+	path = .vim/pack/vim-perl/start/vim-perl
+	url = https://github.com/vim-perl/vim-perl.git
+[submodule ".vim/pack/hashivim/start/vim-terraform"]
+	path = .vim/pack/hashivim/start/vim-terraform
+	url = https://github.com/hashivim/vim-terraform.git
+[submodule ".vim/pack/ConradIrwin/start/vim-bracketed-paste"]
+	path = .vim/pack/ConradIrwin/start/vim-bracketed-paste
+	url = https://github.com/ConradIrwin/vim-bracketed-paste.git
+[submodule ".vim/pack/nvie/start/vim-flake8"]
+	path = .vim/pack/nvie/start/vim-flake8
+	url = https://github.com/nvie/vim-flake8.git
+[submodule ".vim/pack/tpope/start/vim-fugitive"]
+	path = .vim/pack/tpope/start/vim-fugitive
+	url = https://github.com/tpope/vim-fugitive.git
+[submodule ".vim/pack/preservim/start/nerdtree"]
+	path = .vim/pack/preservim/start/nerdtree
+	url = https://github.com/preservim/nerdtree.git
+[submodule ".vim/pack/aliou/start/bats.vim"]
+	path = .vim/pack/aliou/start/bats.vim
+	url = https://github.com/aliou/bats.vim.git
+[submodule ".vim/pack/tmhedberg/start/SimpylFold"]
+	path = .vim/pack/tmhedberg/start/SimpylFold
+	url = https://github.com/tmhedberg/SimpylFold.git
+[submodule ".vim/pack/konfekt/start/FastFold"]
+	path = .vim/pack/konfekt/start/FastFold
+	url = https://github.com/Konfekt/FastFold.git
