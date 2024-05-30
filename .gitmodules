@@ -49,3 +49,6 @@
 [submodule ".vim/bundle/fastfold"]
 	path = .vim/bundle/fastfold
 	url = https://github.com/konfekt/fastfold
+[submodule ".vim/pack/plugins/sensible"]
+	path = .vim/pack/plugins/sensible
+	url = https://tpope.io/vim/sensible.git
