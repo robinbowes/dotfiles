@@ -188,4 +188,11 @@ let g:syntastic_sh_shellcheck_args="-x"
 let g:terraform_fmt_on_save = 1
 
 " enable docstring preview in SimpylFold (python files)
-" let g:SimpylFold_docstring_preview = 1
+let g:SimpylFold_docstring_preview = 1
+
+" Go config
+let g:go_def_mode='gopls'
+let g:go_info_mode='gopls'
+let g:ale_linters = {
+  \ 'go': ['gopls'],
+  \}
