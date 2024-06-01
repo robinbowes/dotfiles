@@ -196,3 +196,7 @@ let g:go_info_mode='gopls'
 let g:ale_linters = {
   \ 'go': ['gopls'],
   \}
+
+" airline config
+AirlineTheme solarized
+let g:airline_solarized_bg='dark'

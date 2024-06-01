@@ -40,3 +40,9 @@
 [submodule ".vim/pack/fatih/start/vim-go"]
 	path = .vim/pack/fatih/start/vim-go
 	url = https://github.com/fatih/vim-go.git
+[submodule ".vim/pack/vim-airline/start/vim-airline"]
+	path = .vim/pack/vim-airline/start/vim-airline
+	url = https://github.com/vim-airline/vim-airline.git
+[submodule ".vim/pack/vim-airline/start/vim-airline-themes"]
+	path = .vim/pack/vim-airline/start/vim-airline-themes
+	url = https://github.com/vim-airline/vim-airline-themes.git
