@@ -153,7 +153,7 @@ if has("autocmd")
 	autocmd BufEnter * let &titlestring = $HOSTNAME . ":" . expand("%:p:~")
   autocmd FileType make setlocal noexpandtab
   " Add formatting command for python files
-  autocmd FileType python nnoremap <leader>y :0,$!yapf<Cr><C-o>
+  autocmd FileType python nnoremap <leader>y :0,$!black<Cr><C-o>
 endif
 
 " Colours
@@ -175,15 +175,6 @@ if &term == "xterm" || &term == "vt220" || &term == "xterm-256color"
   set t_fs= 
 endif
 
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 0
-let g:syntastic_check_on_wq = 1
-
-let g:syntastic_enable_perl_checker = 1
-let g:syntastic_python_checkers = ['flake8']
-let g:syntastic_sh_shellcheck_args="-x"
-
 " run terraform fmt on save
 let g:terraform_fmt_on_save = 1
 
@@ -193,10 +184,27 @@ let g:SimpylFold_docstring_preview = 1
 " Go config
 let g:go_def_mode='gopls'
 let g:go_info_mode='gopls'
-let g:ale_linters = {
-  \ 'go': ['gopls'],
-  \}
 
 " airline config
 AirlineTheme solarized
 let g:airline_solarized_bg='dark'
+
+" ALE config
+let g:ale_fixers = {
+    \    '*': ['remove_trailing_lines', 'trim_whitespace'],
+    \    'python': ['ruff']
+    \}
+
+let g:ale_linters = {
+  \ 'go': ['gopls'],
+  \ 'python': ['ruff']
+  \}
+
+"let g:ale_python_flake8_options = '--max-line-length 88 --extend-ignore E203'
+let g:ale_python_ruff_use_global = 1
+let g:ale_fix_on_save = 1
+let g:ale_floating_preview = 1
+let g:ale_sign_error = ' ✖'
+let g:ale_sign_warning = ' •'
+
+" Does ALE support shellcheck?
