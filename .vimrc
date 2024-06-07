@@ -207,7 +207,11 @@ let g:ale_floating_preview = 1
 let g:ale_sign_error = ' ✖'
 let g:ale_sign_warning = ' •'
 
-" Does ALE support shellcheck?
+" lint and formatting for shell files
+let b:ale_linters = ['shellcheck']
+let b:ale_fixers = ['shfmt']
+let b:ale_sh_shellcheck_options = '-x'
+let b:ale_sh_shfmt_options = '-bn -ci -sr'
 
 " fzf integration
 set rtp+=/usr/local/opt/fzf
