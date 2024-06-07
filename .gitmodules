@@ -46,3 +46,6 @@
 [submodule ".vim/pack/vim-airline/start/vim-airline-themes"]
 	path = .vim/pack/vim-airline/start/vim-airline-themes
 	url = https://github.com/vim-airline/vim-airline-themes.git
+[submodule ".vim/pack/junegunn/start/fzf.vim"]
+	path = .vim/pack/junegunn/start/fzf.vim
+	url = https://github.com/junegunn/fzf.vim.git

@@ -172,7 +172,7 @@ if &term == "xterm" || &term == "vt220" || &term == "xterm-256color"
   " Let the title stuff work even if we don't open the DISPLAY
   set title
   set t_ts=]2;
-  set t_fs= 
+  set t_fs=
 endif
 
 " run terraform fmt on save
@@ -208,3 +208,6 @@ let g:ale_sign_error = ' ✖'
 let g:ale_sign_warning = ' •'
 
 " Does ALE support shellcheck?
+
+" fzf integration
+set rtp+=/usr/local/opt/fzf
