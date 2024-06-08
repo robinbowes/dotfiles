@@ -198,6 +198,7 @@ let g:ale_fixers = {
 
 let g:ale_linters = {
   \ 'go': ['gopls'],
+  \ 'perl': ['perl','perlcritic'],
   \ 'python': ['ruff'],
   \ 'sh': ['shellcheck']
   \}
