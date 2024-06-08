@@ -192,12 +192,14 @@ let g:airline_solarized_bg='dark'
 " ALE config
 let g:ale_fixers = {
     \    '*': ['remove_trailing_lines', 'trim_whitespace'],
-    \    'python': ['ruff']
+    \    'python': ['ruff'],
+    \    'sh': ['shfmt']
     \}
 
 let g:ale_linters = {
   \ 'go': ['gopls'],
-  \ 'python': ['ruff']
+  \ 'python': ['ruff'],
+  \ 'sh': ['shellcheck']
   \}
 
 "let g:ale_python_flake8_options = '--max-line-length 88 --extend-ignore E203'
@@ -207,11 +209,9 @@ let g:ale_floating_preview = 1
 let g:ale_sign_error = ' ✖'
 let g:ale_sign_warning = ' •'
 
-" lint and formatting for shell files
-let b:ale_linters = ['shellcheck']
-let b:ale_fixers = ['shfmt']
-let b:ale_sh_shellcheck_options = '-x'
-let b:ale_sh_shfmt_options = '-bn -ci -sr'
+" lint and formatting options for shell files
+let g:ale_sh_shellcheck_options = '-x -o avoid-nullary-conditions'
+let g:ale_sh_shfmt_options = '-i2 -bn -ci -sr'
 
 " fzf integration
 set rtp+=/usr/local/opt/fzf
