@@ -1,0 +1,17 @@
+# Suggest adding a default case in `case` statements
+enable=add-default-case
+
+# Suggest explicitly using -n in `[ $var ]`
+enable=avoid-nullary-conditions
+
+# Warn when uppercase variables are unassigned
+enable=check-unassigned-uppercase
+
+# Suggest 'command -v' instead of 'which'
+enable=deprecate-which
+
+# Require [[ and warn about [ in Bash/Ksh
+enable=require-double-brackets
+
+# Allow opening any 'source'd file, even if not specified as input
+external-sources=true

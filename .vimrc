@@ -211,7 +211,7 @@ let g:ale_sign_error = ' ✖'
 let g:ale_sign_warning = ' •'
 
 " lint and formatting options for shell files
-let g:ale_sh_shellcheck_options = '-x -o avoid-nullary-conditions'
+let g:ale_sh_shellcheck_options = '-x'
 let g:ale_sh_shfmt_options = '-i2 -bn -ci -sr'
 
 " fzf integration
