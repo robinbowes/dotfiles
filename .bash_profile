@@ -6,10 +6,10 @@
 
 # Load boxen environment, if present
 # shellcheck disable=SC1091
-[ -f /opt/boxen/env.sh ] && . /opt/boxen/env.sh
+[[ -f /opt/boxen/env.sh ]] && . /opt/boxen/env.sh
 
 # new pyenv initialisation
-eval "$(pyenv init --path)"
+# eval "$(pyenv init --path)"
 
 # .golang needs to run before .path
 declare -a extra_files=(

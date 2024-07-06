@@ -13,6 +13,10 @@ pathmunge () {
     esac
 }
 
+# Add homebrew bin to the path
+pathmunge /opt/homebrew/bin
+pathmunge /opt/homebrew/sbin
+
 # Add go bin to the path
 pathmunge "$GOPATH/bin"
 
@@ -23,7 +27,7 @@ pathmunge "$HOME/bin"
 pathmunge "$HOME/.local/bin"
 
 # add Homebrew sbin location
-pathmunge "/usr/local/sbin"
+# pathmunge "/usr/local/sbin"
 
 # Add nodenv to the path
 # pathmunge "$HOME/.nodenv/bin"
