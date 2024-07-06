@@ -13,9 +13,12 @@ pathmunge () {
     esac
 }
 
-# Add homebrew bin to the path
+# Add homebrew bin to the path on Apple Silicon
+if [[ $(uname -p &>/dev/null) == "arm" ]] ; then
 pathmunge /opt/homebrew/bin
-pathmunge /opt/homebrew/sbin
+  pathmunge /opt/homebrew/bin
+  pathmunge /opt/homebrew/sbin
+fi
 
 # Add go bin to the path
 pathmunge "$GOPATH/bin"
