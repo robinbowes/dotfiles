@@ -38,6 +38,10 @@ pathmunge "$HOME/.local/bin"
 # add php composer bin to path
 # pathmunge "$HOME/.composer/vendor/bin"
 
+if [[ -d /opt/homebrew/opt/postgresql@${PG_VERSION:-}/bin ]] ; then
+  pathmunge /opt/homebrew/opt/postgresql@$PG_VERSION/bin
+fi
+
 # load any local path changes
 [ -r .path.local ] && . .path.local
 

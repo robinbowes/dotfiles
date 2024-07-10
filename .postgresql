@@ -1,0 +1,6 @@
+# Set Postgreslq version to 16, if not already set
+# PG_VERSION is used to specify the directory to add to the path
+# to make postgresql tools available.
+
+PG_VERSION="${PG_VERSION:-16}"
+export PG_VERSION

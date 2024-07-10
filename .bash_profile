@@ -12,8 +12,10 @@
 # eval "$(pyenv init --path)"
 
 # .golang needs to run before .path
+# .postgresql needs to run before path to set version
 declare -a extra_files=(
   ~/.golang
+  ~/.postgresql
   ~/.path
   ~/.bash_prompt
   ~/.python
