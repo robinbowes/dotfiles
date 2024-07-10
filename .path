@@ -14,7 +14,7 @@ pathmunge () {
 }
 
 # Add homebrew bin to the path on Apple Silicon
-if [[ $(uname -p &>/dev/null) == "arm" ]] ; then
+if [[ $(uname -p) == "arm" ]] ; then
 pathmunge /opt/homebrew/bin
   pathmunge /opt/homebrew/bin
   pathmunge /opt/homebrew/sbin
