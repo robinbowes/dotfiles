@@ -59,9 +59,10 @@ if command -v brew &>/dev/null ; then
   if [[ -r "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh" ]] ; then
     . "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh"
   else
-    while read -r COMPLETION ; do
+    [[ -r $HOMEBREW_PREFIX/completions/bash/brew ]] && . "$HOMEBREW_PREFIX"/completions/bash/brew
+    while read -r completion ; do
       # shellcheck disable=SC1090
-      [[ -r "${COMPLETION}" ]] && . "${COMPLETION}"
+      [[ -r $completion ]] && . "$completion"
     done < <(
       find "$HOMEBREW_PREFIX"/etc/bash_completion.d -type f -o -type l
     )
