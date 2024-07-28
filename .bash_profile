@@ -57,22 +57,19 @@ command -v grunt &> /dev/null && eval "$(grunt --completion=bash)"
 tfschema_bin=$(command -v tfschema || true)
 [[ -n $tfschema_bin ]] && complete -C "$tfschema_bin" tfschema
 
-# If possible, add tab completion for many more commands
-declare -a completion_files=(
-  /etc/bash_completion
-  /usr/share/bash-completion/bash_completion
-  /usr/local/etc/bash_completion.d/brew
-  /usr/local/etc/bash_completion.d/git-completion.bash
-  /usr/local/etc/bash_completion.d/git-prompt.sh
-  /usr/local/etc/bash_completion.d/pyenv.bash
-  /usr/local/etc/bash_completion.d/tmux
-)
-command -v brew >/dev/null && completion_files+=("$(brew --prefix)/etc/bash_completion")
-
-for completion_file in "${completion_files[@]}" ; do
-  # shellcheck disable=SC1090
-  [ -f "$completion_file" ] && source "$completion_file"
-done
+if command -v brew &>/dev/null ; then
+  HOMEBREW_PREFIX="$(brew --prefix)"
+  if [[ -r "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh" ]] ; then
+    . "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh"
+  else
+    while read -r COMPLETION ; do
+      # shellcheck disable=SC1090
+      [[ -r "${COMPLETION}" ]] && . "${COMPLETION}"
+    done < <(
+      find "$HOMEBREW_PREFIX"/etc/bash_completion.d -type f -o -type l
+    )
+  fi
+fi
 
 # initialize nodenv
 command -v nodenv &> /dev/null && eval "$(nodenv init -)"
