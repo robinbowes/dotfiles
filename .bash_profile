@@ -52,7 +52,7 @@ command -v grunt &> /dev/null && eval "$(grunt --completion=bash)"
 
 # Add completion for tfschema, if installed
 tfschema_bin=$(command -v tfschema || true)
-[[ -n $tfschema_bin ]] && complete -C "$tfschema_bin" tfschema
+[[ -x $tfschema_bin ]] && complete -C "$tfschema_bin" tfschema
 
 if command -v brew &>/dev/null ; then
   HOMEBREW_PREFIX="$(brew --prefix)"
