@@ -5,7 +5,7 @@ set -euo pipefail
 p1=${1:-}
 
 cd "$(dirname "${BASH_SOURCE[0]}")"
-git pull origin master
+git pull origin main
 
 function doIt() {
 	rsync --exclude ".git/" --exclude ".DS_Store" --exclude "bootstrap.sh" \
