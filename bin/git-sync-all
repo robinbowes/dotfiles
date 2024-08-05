@@ -1,0 +1,82 @@
+#!/usr/bin/env bash
+
+# Enable xtrace if the DEBUG environment variable is set
+if [[ ${DEBUG-} =~ ^1|yes|true$ ]]; then
+    set -o xtrace       # Trace the execution of the script (debug)
+fi
+
+set -o errexit      # Exit on most errors (see the manual)
+set -o nounset      # Disallow expansion of unset variables
+set -o pipefail     # Use last non-zero exit code in a pipeline
+
+
+main() {
+  pre_flight_check
+  sync_repos
+}
+
+# write output to stderr
+echoerr() { printf "%s\n" "$*" >&2; }
+
+# Check we have all the required tools installed
+pre_flight_check() {
+  local error=0
+  declare -a required_cmds=(
+    git
+    git-sync
+    parallel
+  )
+  for cmd in "${required_cmds[@]}" ; do
+    if ! command -v "$cmd" >/dev/null ; then
+      echoerr "Command '$cmd' not found"
+      error=1
+    fi
+  done
+  [[ error -eq 0 ]] || exit 1
+}
+
+# main sync function - runs in current directory
+sync_repos() {
+  # The script executed by parallel is in-lined, rather than putting it in a
+  # function since parallel creates a new shell for each invocation so a function
+  # would have to be exported for it to be visible to a parallel process.
+  # We don't want to expand any variables in this script
+  # shellcheck disable=SC2016
+  parallel '
+    cd {//}
+    pwd
+
+    # Code to switch remote URL from git to https
+    #    remote=$(git remote get-url origin)
+    #    echo "Remote is $remote"
+    #    if [[ $remote == git@* ]] ; then
+    #      new_remote=${remote/#git@github.com:/https://github.com/}
+    #      echo "Changing remote to $new_remote"
+    #      git remote set-url origin "$new_remote"
+    #    fi
+
+    if git ls-remote &> /dev/null; then
+      git remote set-head origin --auto >/dev/null
+      default_branch=$(basename $(git symbolic-ref --short refs/remotes/origin/HEAD))
+      orig_branch=$(git rev-parse --abbrev-ref HEAD)
+      [[ $orig_branch != "$default_branch" ]] && git checkout "$default_branch"
+      git sync
+      [[ $orig_branch != "$default_branch" ]] && (
+        check_orig_branch=$(git branch -l "$orig_branch")
+        [[ -n $check_orig_branch ]] && git checkout -
+      )
+      if [[ -f .pre-commit-config.yaml ]]; then
+        [[ -f .git/hooks/pre-commit ]] || pre-commit install
+        [[ -f .git/hooks/commit-msg ]] || pre-commit install --hook-type commit-msg
+      fi
+    else
+      echo "No remote"
+    fi
+  ' < <(sort < <(find . -type d -not \( -path '**/.terraform' -prune \) -name .git))
+}
+
+# Invoke main with args if not sourced
+# Approach via: https://stackoverflow.com/a/28776166/8787985
+if ! (return 0 2> /dev/null); then
+    main "$@"
+fi
