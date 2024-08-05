@@ -192,6 +192,7 @@ let g:airline_solarized_bg='dark'
 " ALE config
 let g:ale_fixers = {
     \    '*': ['remove_trailing_lines', 'trim_whitespace'],
+    \    'markdown': ['remove_trailing_lines'],
     \    'python': ['ruff'],
     \    'sh': ['shfmt']
     \}
