@@ -190,9 +190,8 @@ AirlineTheme solarized
 let g:airline_solarized_bg='dark'
 
 " ALE config
+" Note: we reply on editorconfig to do whitepace fixes
 let g:ale_fixers = {
-    \    '*': ['remove_trailing_lines', 'trim_whitespace'],
-    \    'markdown': ['remove_trailing_lines'],
     \    'python': ['ruff'],
     \    'sh': ['shfmt']
     \}
