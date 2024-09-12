@@ -2,6 +2,8 @@
 
 # Add tab completion for SSH hostnames
 #
+# Based on this gist: https://gist.github.com/aliang/1024466
+#
 # Search in:
 #  - ~/.ssh/config
 #  - ~/.ssh/config.d/*config
@@ -15,6 +17,7 @@ _complete_ssh_hosts ()
     sort -u < <(
       awk '{split($1,aliases,","); if (aliases[1] !~ /^\[/) print aliases[1]}' < <(
         # list all known_hosts files, ignoring blank lines and comments
+        # awk code taken from https://stackoverflow.com/a/17396799
         awk '!/^ *#/ && NF' < <(cat ~/.ssh/*known_hosts)
       )
       awk '/^Host/ && $2 !~ /[*]/ {print $2}' <(
