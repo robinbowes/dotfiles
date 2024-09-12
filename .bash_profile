@@ -29,6 +29,7 @@ declare -a extra_files=(
   ~/.jqconfig
   ~/.nvm/load_nvm
   ~/.gcp
+  ~/.ssh_completion
 #  ~/.condo_init
 )
 for extra_file in "${extra_files[@]}"; do
@@ -36,9 +37,6 @@ for extra_file in "${extra_files[@]}"; do
   [[ -r $extra_file ]] && . "$extra_file"
 done
 unset extra_files
-
-# Add tab completion for SSH hostnames based on ~/.ssh/config, ignoring wildcards
-[[ -r "$HOME/.ssh/config" ]] && complete -o "default" -o "nospace" -W "$(grep "^Host" ~/.ssh/config | grep -v "[?*]" | cut -d " " -f2 | tr ' ' '\n')" scp sftp ssh
 
 # Add tab completion for `defaults read|write NSGlobalDomain`
 # You could just use `-g` instead, but I like being explicit

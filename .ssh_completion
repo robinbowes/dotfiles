@@ -1,0 +1,28 @@
+# shellcheck shell=bash
+
+# Add tab completion for SSH hostnames
+#
+# Search in:
+#  - ~/.ssh/config
+#  - ~/.ssh/config.d/*config
+#  - ~/.ssh/*known_hosts
+
+_complete_ssh_hosts ()
+{
+  COMPREPLY=()
+  cur="${COMP_WORDS[COMP_CWORD]}"
+  comp_ssh_hosts=$(
+    sort -u < <(
+      awk '{split($1,aliases,","); if (aliases[1] !~ /^\[/) print aliases[1]}' < <(
+        # list all known_hosts files, ignoring blank lines and comments
+        awk '!/^ *#/ && NF' < <(cat ~/.ssh/*known_hosts)
+      )
+      awk '/^Host/ && $2 !~ /[*]/ {print $2}' <(
+        cat ~/.ssh/{config,config.d/*config}
+      )
+    )
+  )
+  COMPREPLY=( $(compgen -W "$comp_ssh_hosts" -- $cur) )
+  return 0
+}
+complete -F _complete_ssh_hosts ssh
