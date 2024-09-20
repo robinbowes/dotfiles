@@ -13,11 +13,12 @@
 
 # .golang needs to run before .path
 # .postgresql needs to run before path to set version
+# .asdf/init.bash needs to run *after* path as it uses the brew command
 declare -a extra_files=(
-  ~/.asdf/init.bash
   ~/.golang
   ~/.postgresql
   ~/.path
+  ~/.asdf/init.bash
   ~/.bash_prompt
   ~/.python
   ~/.exports
