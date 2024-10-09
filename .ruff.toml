@@ -42,7 +42,7 @@ target-version = "py312"
 # McCabe complexity (`C901`) by default.
 # Enable all `pydocstyle` rules, limiting to those that adhere to the
 # Google convention via `convention = "google"`, below.
-select = ["D", "E4", "E7", "E9", "F"]
+select = ["E4", "E7", "E9", "F", "ANN", "C901", "D", "I", "W"]
 
 # On top of the Google convention, disable `D417`, which requires
 # documentation for every function parameter.
