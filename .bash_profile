@@ -17,9 +17,9 @@ declare -a extra_files=(
   ~/.golang
   ~/.postgresql
   ~/.path
-  ~/.mise
   ~/.bash_prompt
   ~/.python
+  ~/.mise
   ~/.exports
   ~/.aliases
   ~/.functions
