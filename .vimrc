@@ -205,6 +205,7 @@ let g:ale_linters = {
 
 "let g:ale_python_flake8_options = '--max-line-length 88 --extend-ignore E203'
 let g:ale_python_ruff_use_global = 1
+let g:ale_python_ruff_options = '--extend-select I'
 let g:ale_fix_on_save = 1
 let g:ale_floating_preview = 1
 let g:ale_sign_error = ' ✖'
