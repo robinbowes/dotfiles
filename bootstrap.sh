@@ -15,6 +15,7 @@ main() {
   parse_cmdline "$@"
   if check_for_changed_files ; then
     sync_files
+    reload_config
   fi
 }
 
@@ -119,7 +120,9 @@ sync_files() {
     -av \
     --no-perms \
     . ~
+}
 
+reload_config() {
   # shellcheck source=/dev/null
   . ~/.bash_profile
 }
