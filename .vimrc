@@ -52,9 +52,9 @@ set encoding=utf-8 nobomb
 " Change mapleader
 let mapleader=","
 
-" Don’t add empty newlines at the end of files
+" Add empty newlines at the end of files
 set binary
-set noeol
+set eol
 
 " Centralize backups, swapfiles and undo history
 set backupdir=~/.vim/backups
