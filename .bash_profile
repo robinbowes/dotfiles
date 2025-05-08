@@ -19,6 +19,7 @@ declare -a extra_files=(
   ~/.path
   ~/.direnv
   ~/.bash_prompt
+  ~/.perl
   ~/.python
   ~/.mise
   ~/.exports
