@@ -42,6 +42,10 @@ if [[ -d /opt/homebrew/opt/postgresql@${PG_VERSION:-}/bin ]] ; then
   pathmunge /opt/homebrew/opt/postgresql@$PG_VERSION/bin
 fi
 
+if [[ -d "$HOME/.cargo/bin" ]] ; then
+  pathmunge "$HOME/.cargo/bin"
+fi
+
 # load any local path changes
 [ -r .path.local ] && . .path.local
 
