@@ -192,12 +192,14 @@ let g:airline_solarized_bg='dark'
 " ALE config
 " Note: we reply on editorconfig to do whitepace fixes
 let g:ale_fixers = {
-    \    'python': ['ruff', 'ruff_format'],
-    \    'sh': ['shfmt']
-    \}
+  \ 'markdown': ['prettier'],
+  \ 'python': ['ruff', 'ruff_format'],
+  \ 'sh': ['shfmt']
+  \}
 
 let g:ale_linters = {
   \ 'go': ['gopls'],
+  \ 'markdown': ['markdownlint', 'vale'],
   \ 'perl': ['perl','perlcritic'],
   \ 'python': ['ruff'],
   \ 'sh': ['shellcheck']
