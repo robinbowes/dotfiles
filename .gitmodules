@@ -55,3 +55,6 @@
 [submodule ".vim/pack/preservim/start/vim-markdown"]
 	path = .vim/pack/preservim/start/vim-markdown
 	url = https://github.com/preservim/vim-markdown.git
+[submodule ".vim/pack/terrastruct/start/d2-vim"]
+	path = .vim/pack/terrastruct/start/d2-vim
+	url = https://github.com/terrastruct/d2-vim.git

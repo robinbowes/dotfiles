@@ -217,5 +217,21 @@ let g:ale_sign_warning = ' •'
 let g:ale_sh_shellcheck_options = '-x'
 let g:ale_sh_shfmt_options = '-i2 -bn -ci -sr'
 
+" lint and formatting options for d2 files
+" Enable/disable auto format on save (default: 1)
+let g:d2_fmt_autosave = 1
+" Customize the format command (default: "d2 fmt")
+let g:d2_fmt_command = "d2 fmt"
+" Fail silently when formatting fails (default: 0)
+let g:d2_fmt_fail_silently = 0
+" Enable/disable auto validate on save (default: 0)
+let g:d2_validate_autosave = 0
+" Customize the validate command (default: "d2 validate")
+let g:d2_validate_command = "d2 validate"
+" Use quickfix or locationlist for errors (default: "quickfix")
+let g:d2_list_type = "quickfix"
+" Fail silently when validation fails (default: 0)
+let g:d2_validate_fail_silently = 0
+
 " fzf integration
 set rtp+=/usr/local/opt/fzf
