@@ -198,7 +198,7 @@ let g:ale_fixers = {
   \}
 
 let g:ale_linters = {
-  \ 'markdown': ['prettier'],
+  \ 'markdown': ['prettier', 'markdownlint', 'vale'],
   \ 'go': ['gopls'],
   \ 'perl': ['perl','perlcritic'],
   \ 'python': ['ruff'],
