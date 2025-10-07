@@ -13,11 +13,11 @@ pathmunge () {
     esac
 }
 
-# Add homebrew bin to the path on Apple Silicon
-if [[ $(uname -p) == "arm" ]] ; then
-pathmunge /opt/homebrew/bin
-  pathmunge /opt/homebrew/bin
-  pathmunge /opt/homebrew/sbin
+# Add homebrew sbin/bin to the path
+if command -v brew &>/dev/null ; then
+  HOMEBREW_PREFIX="$(brew --prefix)"
+  pathmunge $HOMEBREW_PREFIX/sbin
+  pathmunge $HOMEBREW_PREFIX/bin
 fi
 
 # Add go bin to the path
