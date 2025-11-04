@@ -89,9 +89,11 @@ check_for_changed_files() {
     fi
   done < <(
     find . \
-      -path .git -prune \
-      -o -name '.*' \
-      -type f
+      -path ./.git -prune \
+      -o \
+      -name '*' \
+      -type f \
+      -print
   )
 
   if (( ${#changed_files[@]} > 0 )) && [[ $_FORCE == "false" ]]; then
