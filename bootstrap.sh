@@ -92,6 +92,10 @@ check_for_changed_files() {
       -path ./.git -prune \
       -o \
       -name '*' \
+      ! -name 'LICENSE-MIT.txt' \
+      ! -name 'README.md' \
+      ! -name 'bootstrap.sh' \
+      ! -name 'LICENSE-GPL.txt' \
       -type f \
       -print
   )
