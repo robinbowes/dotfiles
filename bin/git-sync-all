@@ -9,6 +9,8 @@ set -o errexit      # Exit on most errors (see the manual)
 set -o nounset      # Disallow expansion of unset variables
 set -o pipefail     # Use last non-zero exit code in a pipeline
 
+PRECOMMIT=prek
+
 
 main() {
   pre_flight_check
@@ -25,6 +27,7 @@ pre_flight_check() {
     git
     git-sync
     parallel
+    "$PRECOMMIT"
   )
   for cmd in "${required_cmds[@]}" ; do
     if ! command -v "$cmd" >/dev/null ; then
@@ -66,8 +69,8 @@ sync_repos() {
         [[ -n $check_orig_branch ]] && git checkout -
       )
       if [[ -f .pre-commit-config.yaml ]]; then
-        [[ -f .git/hooks/pre-commit ]] || pre-commit install
-        [[ -f .git/hooks/commit-msg ]] || pre-commit install --hook-type commit-msg
+        [[ -f .git/hooks/pre-commit ]] || $PRECOMMIT install
+        [[ -f .git/hooks/commit-msg ]] || $PRECOMMIT install --hook-type commit-msg
       fi
     else
       echo "No remote"
