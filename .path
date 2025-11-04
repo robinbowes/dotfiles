@@ -1,14 +1,5 @@
 # shellcheck shell=bash
 
-# Enable xtrace if the DEBUG environment variable is set
-if [[ ${DEBUG-} =~ ^1|yes|true$ ]]; then
-    set -o xtrace       # Trace the execution of the script (debug)
-fi
-
-set -o errexit      # Exit on most errors (see the manual)
-set -o nounset      # Disallow expansion of unset variables
-set -o pipefail     # Use last non-zero exit code in a pipeline
-
 main() {
   # Split the path into an array
   IFS=: read -ra PATH_ARRAY <<<"$PATH"
