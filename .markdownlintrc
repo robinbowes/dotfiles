@@ -1,8 +1,14 @@
-{
-  "default": true
-  "MD033": false
-  "MD013": false
-  "MD007": {
-    "indent": 4
-  }
-}
+; Enable all rules by default
+default=true
+
+; Match prettier default indent
+[MD007]
+  indent=4
+
+; Ignore line length rules (as Prettier handles this).
+MD013=false
+
+; Allow inline HTML which is useful in Github-flavour markdown for:
+; - crafting headings with friendly hash fragments.
+; - adding collapsible sections with <details> and <summary>.
+MD033=false
