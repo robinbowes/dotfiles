@@ -80,12 +80,17 @@ check_for_changed_files() {
 
   git pull origin main || exiterr "Error updating the local working directory."
 
-  declare -a changed_files=()
+  declare -a created_files=()
+  declare -a overwritten_files=()
 
   while read -r file ; do
     clean_file="${file#./}"
-    if ! diff --brief -Bb "$clean_file" "$HOME/$clean_file" ; then
-      changed_files+=("$clean_file")
+    if ! diff --brief -Bb "$clean_file" "$HOME/$clean_file" >/dev/null 2>&1 ; then
+      if [[ -f "$HOME/$clean_file" ]] ; then
+        overwritten_files+=("$clean_file")
+      else
+        created_files+=("$clean_file")
+      fi
     fi
   done < <(
     find . \
@@ -100,9 +105,22 @@ check_for_changed_files() {
       -print
   )
 
-  if (( ${#changed_files[@]} > 0 )) && [[ $_FORCE == "false" ]]; then
+  local prompt=false
+  if (( ${#overwritten_files[@]} > 0 )) ; then
+    echo
+    echo "The following files will be created in your home directory:"
+    echo "${created_files[@]}"
+    prompt=true
+  fi
+
+  if (( ${#overwritten_files[@]} > 0 )) ; then
+    echo
     echo "The following files will be overwritten in your home directory:"
-    echo "${changed_files[@]}"
+    echo "${overwritten_files[@]}"
+    prompt=true
+  fi
+
+  if [[ $prompt == "true" ]] && [[ $_FORCE == "false" ]] ; then
     echo
     if ! confirm "Proceed? (y/n) " ; then
       return 1
