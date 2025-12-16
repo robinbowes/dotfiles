@@ -191,6 +191,10 @@ let g:airline_solarized_bg='dark'
 
 " ALE config
 " Note: we reply on editorconfig to do whitepace fixes
+let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
+let g:ale_sign_error = '❌'
+let g:ale_sign_warning = '⚠️'
+
 let g:ale_fixers = {
   \ 'markdown': ['prettier'],
   \ 'python': ['ruff', 'ruff_format'],
@@ -202,7 +206,8 @@ let g:ale_linters = {
   \ 'go': ['gopls'],
   \ 'perl': ['perl','perlcritic'],
   \ 'python': ['ruff'],
-  \ 'sh': ['shellcheck']
+  \ 'sh': ['shellcheck'],
+  \ 'yaml': ['yamllint']
   \}
 
 "let g:ale_python_flake8_options = '--max-line-length 88 --extend-ignore E203'
@@ -210,8 +215,6 @@ let g:ale_python_ruff_use_global = 1
 let g:ale_python_ruff_options = '--extend-select I'
 let g:ale_fix_on_save = 1
 let g:ale_floating_preview = 1
-let g:ale_sign_error = ' ✖'
-let g:ale_sign_warning = ' •'
 
 " lint and formatting options for shell files
 let g:ale_sh_shellcheck_options = '-x'
