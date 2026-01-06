@@ -198,7 +198,8 @@ let g:ale_sign_warning = '⚠️'
 let g:ale_fixers = {
   \ 'markdown': ['prettier'],
   \ 'python': ['ruff', 'ruff_format'],
-  \ 'sh': ['shfmt']
+  \ 'sh': ['shfmt'],
+  \ 'yaml': ['prettier']
   \}
 
 let g:ale_linters = {
@@ -207,7 +208,7 @@ let g:ale_linters = {
   \ 'perl': ['perl','perlcritic'],
   \ 'python': ['ruff'],
   \ 'sh': ['shellcheck'],
-  \ 'yaml': ['yamllint']
+  \ 'yaml': ['prettier']
   \}
 
 "let g:ale_python_flake8_options = '--max-line-length 88 --extend-ignore E203'
