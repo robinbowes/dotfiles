@@ -85,3 +85,5 @@ command -v fzf &>/dev/null && eval "$(fzf --bash)"
 
 # Cross-shell prompt: https://starship.rs
 command -v starship &>/dev/null && eval "$(starship init bash)"
+
+command -v atuin > /dev/null && eval "$(atuin init bash --disable-up-arrow)"

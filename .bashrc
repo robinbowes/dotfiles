@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+# shellcheck disable=SC1090
+[[ $- == *i* ]] && source -- ~/.local/share/blesh/ble.sh --attach=none
+
 # Set a shell option but don't fail if it doesn't exist!
 safe_set() { shopt -s "$1" >/dev/null 2>&1 || true; }
 
@@ -40,3 +43,5 @@ HISTCONTROL=ignoreboth
 # for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
 HISTSIZE=10000
 HISTFILESIZE=100000
+
+[[ -n ${BLE_VERSION-} ]] || ble-attach
