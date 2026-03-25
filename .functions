@@ -251,3 +251,25 @@ function gi() {
 	local IFS=,
 	eval npm install --save-dev grunt-{"$*"}
 }
+
+# NATS context selector
+function ncs () {
+	local choice
+	choice="$(
+    {
+      nats context list --json 2>/dev/null | jq -r '.[] | .name' | sort -f
+      echo "(unselect)"
+    } | fzf --prompt='NATS context> ' --height=40% --reverse
+  )" || return 1
+	[[ -n "$choice" ]] || return 1
+	if [[ "$choice" == "(unselect)" ]] ; then
+		nats context unselect
+		local rc=$?
+		unset NATS_CONTEXT
+		[[ -n "${TMUX-}" ]] && tmux select-pane -T "ctx:unselected"
+		return $rc
+	fi
+	export NATS_CONTEXT="$choice"
+	echo "exported env var: NATS_CONTEXT=$NATS_CONTEXT"
+	[[ -n "${TMUX-}" ]] && tmux select-pane -T "ctx:${NATS_CONTEXT}"
+}
