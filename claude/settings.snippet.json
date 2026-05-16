@@ -1,0 +1,51 @@
+{
+  "enabledPlugins": {
+    "stripe@claude-plugins-official": false,
+    "andrej-karpathy-skills@karpathy-skills": true,
+    "superpowers@claude-plugins-official": true,
+    "contributory-factors@yo61-skills": true,
+    "reportlab-pdf@yo61-skills": true,
+    "gopls-lsp@claude-plugins-official": true,
+    "frontend-design@claude-plugins-official": true,
+    "code-simplifier@claude-plugins-official": true,
+    "skill-creator@claude-plugins-official": true,
+    "claude-md-management@claude-plugins-official": true,
+    "security-guidance@claude-plugins-official": true,
+    "commit-commands@claude-plugins-official": true,
+    "claude-code-setup@claude-plugins-official": true,
+    "explanatory-output-style@claude-plugins-official": true,
+    "conventional-commits@dgalarza-workflows": true
+  },
+  "extraKnownMarketplaces": {
+    "karpathy-skills": {
+      "source": {
+        "source": "github",
+        "repo": "forrestchang/andrej-karpathy-skills"
+      }
+    },
+    "superpowers-marketplace": {
+      "source": {
+        "source": "github",
+        "repo": "obra/superpowers-marketplace"
+      }
+    },
+    "yo61-skills": {
+      "source": {
+        "source": "github",
+        "repo": "yo61/claude-skills"
+      }
+    },
+    "superpowers-dev": {
+      "source": {
+        "source": "github",
+        "repo": "obra/superpowers"
+      }
+    },
+    "dgalarza-workflows": {
+      "source": {
+        "source": "github",
+        "repo": "dgalarza/claude-code-workflows"
+      }
+    }
+  }
+}

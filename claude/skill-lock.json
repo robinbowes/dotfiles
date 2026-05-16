@@ -1,0 +1,15 @@
+{
+  "version": 3,
+  "skills": {
+    "domain-driven-design": {
+      "source": "dralgorhythm/claude-agentic-framework",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/dralgorhythm/claude-agentic-framework.git",
+      "skillPath": ".claude/skills/architecture/domain-driven-design/SKILL.md",
+      "skillFolderHash": "aa19e1c974194f5c365a69e67758216bd07bfaf2",
+      "installedAt": "2026-05-16T10:27:22.839Z",
+      "updatedAt": "2026-05-16T10:27:22.839Z"
+    }
+  },
+  "dismissed": {}
+}

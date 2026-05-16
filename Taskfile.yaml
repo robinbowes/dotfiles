@@ -1,0 +1,47 @@
+version: "3"
+
+tasks:
+  default:
+    desc: List available tasks
+    silent: true
+    cmd: task -g --list-all
+
+  backup:home:
+    desc: Backup secure content from $HOME
+    cmd: secure_home_backup.sh
+
+  claude:snapshot:
+    desc: Refresh the Claude Code skills + plugins snapshot in dotfiles
+    vars:
+      DOTFILES_CLAUDE: "$HOME/code/github/robinbowes/dotfiles/claude"
+    cmds:
+      - cp "$HOME/.agents/.skill-lock.json" "{{.DOTFILES_CLAUDE}}/skill-lock.json"
+      - |
+        tmp=$(mktemp) && \
+        jq '{enabledPlugins, extraKnownMarketplaces}' "$HOME/.claude/settings.json" > "$tmp" && \
+        mv "$tmp" "{{.DOTFILES_CLAUDE}}/settings.snippet.json"
+      - git -C "{{.DOTFILES_CLAUDE}}" status -s -- skill-lock.json settings.snippet.json
+
+  dotfiles:pull:
+    desc: Pull local $HOME changes back into the dotfiles repo (inverse of bootstrap.sh)
+    vars:
+      DOTFILES: "$HOME/code/github/robinbowes/dotfiles"
+    cmds:
+      - |
+        cd "{{.DOTFILES}}"
+        find . \
+          -path ./.git -prune -o \
+          -path ./claude -prune -o \
+          -type f \
+          ! -name 'LICENSE-MIT.txt' \
+          ! -name 'LICENSE-GPL.txt' \
+          ! -name 'README.md' \
+          ! -name 'bootstrap.sh' \
+          -print | while IFS= read -r file; do
+          rel="${file#./}"
+          if [ -f "$HOME/$rel" ] && ! diff -q "$HOME/$rel" "$rel" >/dev/null 2>&1; then
+            printf '  updated: %s\n' "$rel"
+            cp "$HOME/$rel" "$rel"
+          fi
+        done
+      - git -C "{{.DOTFILES}}" status -s

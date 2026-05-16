@@ -96,6 +96,8 @@ check_for_changed_files() {
     find . \
       -path ./.git -prune \
       -o \
+      -path ./claude -prune \
+      -o \
       -name '*' \
       ! -name 'LICENSE-MIT.txt' \
       ! -name 'README.md' \
@@ -141,6 +143,7 @@ sync_files() {
     --exclude "README.md" \
     --exclude "LICENSE-GPL.txt" \
     --exclude "LICENSE-MIT.txt" \
+    --exclude "claude/" \
     -av \
     --no-perms \
     . ~

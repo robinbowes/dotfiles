@@ -27,7 +27,6 @@ tar czf "$BACKUP_FILE_NAME" \
   .gitconfig \
   .gitconfig.local \
   .gitconfig.personal \
-  .gitconfig.synadia \
   .gnupg* \
   .keys \
   .ssh \
