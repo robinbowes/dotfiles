@@ -22,6 +22,11 @@ tar czf "$BACKUP_FILE_NAME" \
   --exclude '.ssh/agent' \
   --exclude '.ssh/stratus*' \
   .aws \
+  .claude/CLAUDE.md \
+  .claude/settings.json \
+  .claude/settings.local.json \
+  .claude/statusline-command.sh \
+  .claude/skills \
   .config \
   .extra \
   .gitconfig \
