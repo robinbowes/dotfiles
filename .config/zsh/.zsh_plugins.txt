@@ -1,0 +1,10 @@
+# Plugins loaded by antidote (declarative, hand-edited).
+# Load order matters: fast-syntax-highlighting and history-substring-search
+# must be the last two entries, in that order.
+
+zsh-users/zsh-completions
+zsh-users/zsh-autosuggestions
+Aloxaf/fzf-tab
+ohmyzsh/ohmyzsh path:plugins/colored-man-pages
+zdharma-continuum/fast-syntax-highlighting
+zsh-users/zsh-history-substring-search
