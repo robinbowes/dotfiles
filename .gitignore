@@ -23,3 +23,10 @@ tags
 
 
 .claude
+
+# Zsh runtime caches and per-host overrides (live in $ZDOTDIR)
+.config/zsh/.zcompdump*
+.config/zsh/.zsh_plugins.zsh
+.config/zsh/.zsh_history
+.config/zsh/.antidote/
+.config/zsh/path.local
