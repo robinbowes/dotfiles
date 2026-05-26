@@ -33,6 +33,7 @@ declare -a extra_files=(
   ~/.jqconfig
   ~/.nvm/load_nvm
   ~/.gcp
+  ~/.fzf
   ~/.ssh_completion
 #  ~/.condo_init
 )
@@ -80,8 +81,6 @@ command -v rbenv &> /dev/null && eval "$(rbenv init -)"
 # set up iTerm2 shell integration
 # shellcheck disable=SC1090
 [[ -e "${HOME}/.iterm2_shell_integration.bash" ]] && . "${HOME}/.iterm2_shell_integration.bash"
-
-command -v fzf &>/dev/null && eval "$(fzf --bash)"
 
 # Cross-shell prompt: https://starship.rs
 command -v starship &>/dev/null && eval "$(starship init bash)"
