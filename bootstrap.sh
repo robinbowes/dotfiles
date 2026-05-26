@@ -15,6 +15,7 @@ main() {
   parse_cmdline "$@"
   if check_for_changed_files ; then
     sync_files
+    cleanup_legacy_zsh_state
     reload_config
   fi
 }
@@ -149,9 +150,34 @@ sync_files() {
     . ~
 }
 
+cleanup_legacy_zsh_state() {
+  # macOS auto-created ~/.zprofile is now orphaned (ZDOTDIR moves it).
+  if [[ -f "$HOME/.zprofile" ]]; then
+    local zprofile_size
+    zprofile_size=$(wc -c < "$HOME/.zprofile" | tr -d ' ')
+    # Only remove if it's the small macOS-default file (< 200 bytes). Hand-edited
+    # versions are preserved; the user can clean them up manually.
+    if (( zprofile_size < 200 )); then
+      echo "Removing orphaned ~/.zprofile (superseded by \$ZDOTDIR/.zprofile)"
+      rm "$HOME/.zprofile"
+    else
+      echo "WARN: ~/.zprofile is larger than expected; leaving it in place."
+      echo "      Review and remove manually if it's no longer needed."
+    fi
+  fi
+
+  # Existing ~/.zsh_history would be stranded; relocate it once.
+  local new_histfile="$HOME/.config/zsh/.zsh_history"
+  if [[ -f "$HOME/.zsh_history" && ! -f "$new_histfile" ]]; then
+    echo "Relocating ~/.zsh_history -> $new_histfile"
+    mv "$HOME/.zsh_history" "$new_histfile"
+  fi
+}
+
 reload_config() {
-  # shellcheck source=/dev/null
-  . ~/.bash_profile
+  # We're a bash script; we can't reload an interactive zsh in our parent.
+  # Re-exec into a zsh login shell so the user lands in the new env immediately.
+  exec zsh -l
 }
 
 # Invoke main with args if not sourced
