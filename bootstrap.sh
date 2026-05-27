@@ -106,6 +106,9 @@ check_for_changed_files() {
       ! -name 'README.md' \
       ! -name 'bootstrap.sh' \
       ! -name 'LICENSE-GPL.txt' \
+      ! -name '.zsh_plugins.zsh' \
+      ! -name '.zcompdump*' \
+      ! -name '.zsh_history' \
       -type f \
       -print
   )
@@ -148,6 +151,11 @@ sync_files() {
     --exclude "LICENSE-MIT.txt" \
     --exclude "claude/" \
     --exclude "docs/" \
+    --exclude ".zsh_plugins.zsh" \
+    --exclude ".zcompdump*" \
+    --exclude ".zsh_history" \
+    --exclude ".antidote/" \
+    --exclude "path.local" \
     -av \
     --no-perms \
     . ~
