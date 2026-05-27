@@ -99,6 +99,8 @@ check_for_changed_files() {
       -o \
       -path ./claude -prune \
       -o \
+      -path ./.claude -prune \
+      -o \
       -path ./docs -prune \
       -o \
       -name '*' \
@@ -150,6 +152,7 @@ sync_files() {
     --exclude "LICENSE-GPL.txt" \
     --exclude "LICENSE-MIT.txt" \
     --exclude "claude/" \
+    --exclude ".claude/" \
     --exclude "docs/" \
     --exclude ".zsh_plugins.zsh" \
     --exclude ".zcompdump*" \
