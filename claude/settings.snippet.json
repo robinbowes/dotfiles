@@ -3,8 +3,6 @@
     "stripe@claude-plugins-official": false,
     "andrej-karpathy-skills@karpathy-skills": true,
     "superpowers@claude-plugins-official": true,
-    "contributory-factors@yo61-skills": true,
-    "reportlab-pdf@yo61-skills": true,
     "gopls-lsp@claude-plugins-official": true,
     "frontend-design@claude-plugins-official": true,
     "code-simplifier@claude-plugins-official": true,
@@ -14,7 +12,13 @@
     "commit-commands@claude-plugins-official": true,
     "claude-code-setup@claude-plugins-official": true,
     "explanatory-output-style@claude-plugins-official": true,
-    "conventional-commits@dgalarza-workflows": true
+    "conventional-commits@dgalarza-workflows": true,
+    "github@claude-plugins-official": true,
+    "contributory-factors@yo61-skills": true,
+    "reportlab-pdf@yo61-skills": true,
+    "agent-team-topologies@yo61-skills": true,
+    "code-review@claude-plugins-official": true,
+    "agent-skills@addy-agent-skills": true
   },
   "extraKnownMarketplaces": {
     "karpathy-skills": {
@@ -29,12 +33,6 @@
         "repo": "obra/superpowers-marketplace"
       }
     },
-    "yo61-skills": {
-      "source": {
-        "source": "github",
-        "repo": "yo61/claude-skills"
-      }
-    },
     "superpowers-dev": {
       "source": {
         "source": "github",
@@ -45,6 +43,18 @@
       "source": {
         "source": "github",
         "repo": "dgalarza/claude-code-workflows"
+      }
+    },
+    "yo61-skills": {
+      "source": {
+        "source": "github",
+        "repo": "yo61/claude-skills"
+      }
+    },
+    "addy-agent-skills": {
+      "source": {
+        "source": "github",
+        "repo": "addyosmani/agent-skills"
       }
     }
   }

@@ -9,7 +9,88 @@
       "skillFolderHash": "aa19e1c974194f5c365a69e67758216bd07bfaf2",
       "installedAt": "2026-05-16T10:27:22.839Z",
       "updatedAt": "2026-05-16T10:27:22.839Z"
+    },
+    "stategraph": {
+      "source": "stategraph/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/stategraph/skills.git",
+      "skillPath": "skills/stategraph/SKILL.md",
+      "skillFolderHash": "49ba74a4348fcefdb1cfdaf1d285981c4b37d18c",
+      "installedAt": "2026-05-23T11:57:35.048Z",
+      "updatedAt": "2026-05-23T11:57:35.048Z"
+    },
+    "stategraph-change": {
+      "source": "stategraph/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/stategraph/skills.git",
+      "skillPath": "skills/stategraph-change/SKILL.md",
+      "skillFolderHash": "988872b073b04d6bba2c4250d670edb65b7dfa46",
+      "installedAt": "2026-05-23T11:57:35.051Z",
+      "updatedAt": "2026-05-23T11:57:35.051Z"
+    },
+    "stategraph-import": {
+      "source": "stategraph/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/stategraph/skills.git",
+      "skillPath": "skills/stategraph-import/SKILL.md",
+      "skillFolderHash": "f24274f4e4eeeae7aeca23cdb02bf1de723c7c81",
+      "installedAt": "2026-05-23T11:57:35.052Z",
+      "updatedAt": "2026-05-23T11:57:35.052Z"
+    },
+    "stategraph-query": {
+      "source": "stategraph/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/stategraph/skills.git",
+      "skillPath": "skills/stategraph-query/SKILL.md",
+      "skillFolderHash": "9bab06477406ab8736fd873d336da730d739451b",
+      "installedAt": "2026-05-23T11:57:35.052Z",
+      "updatedAt": "2026-05-23T11:57:35.052Z"
+    },
+    "stategraph-refactor": {
+      "source": "stategraph/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/stategraph/skills.git",
+      "skillPath": "skills/stategraph-refactor/SKILL.md",
+      "skillFolderHash": "d712abbe1b948148f50eaebda98fd3c2f463c2a1",
+      "installedAt": "2026-05-23T11:57:35.053Z",
+      "updatedAt": "2026-05-23T11:57:35.053Z"
+    },
+    "find-skills": {
+      "source": "vercel-labs/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/vercel-labs/skills.git",
+      "skillPath": "skills/find-skills/SKILL.md",
+      "skillFolderHash": "3013fdeb8a11b10b1eb795ec3ae8bfca38f7c26d",
+      "installedAt": "2026-05-23T11:57:39.790Z",
+      "updatedAt": "2026-05-23T11:57:39.790Z"
+    },
+    "create-readme": {
+      "source": "github/awesome-copilot",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/github/awesome-copilot.git",
+      "skillPath": "skills/create-readme/SKILL.md",
+      "skillFolderHash": "f65537a3461b663121fe195697979c17a8004ea5",
+      "installedAt": "2026-05-27T12:59:53.192Z",
+      "updatedAt": "2026-05-27T12:59:53.192Z"
     }
   },
-  "dismissed": {}
+  "dismissed": {
+    "findSkillsPrompt": true
+  },
+  "lastSelectedAgents": [
+    "amp",
+    "antigravity",
+    "cline",
+    "codex",
+    "cursor",
+    "deepagents",
+    "dexto",
+    "firebender",
+    "gemini-cli",
+    "github-copilot",
+    "kimi-cli",
+    "opencode",
+    "warp",
+    "claude-code"
+  ]
 }
