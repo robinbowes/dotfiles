@@ -13,7 +13,7 @@ tasks:
   claude:snapshot:
     desc: Refresh the Claude Code skills + plugins snapshot in dotfiles
     vars:
-      DOTFILES_CLAUDE: "$HOME/code/github/robinbowes/dotfiles/claude"
+      DOTFILES_CLAUDE: "$HOME/code/github.com/robinbowes/dotfiles/claude"
     cmds:
       - cp "$HOME/.agents/.skill-lock.json" "{{.DOTFILES_CLAUDE}}/skill-lock.json"
       - |
@@ -25,7 +25,7 @@ tasks:
   dotfiles:pull:
     desc: Pull local $HOME changes back into the dotfiles repo (inverse of bootstrap.sh)
     vars:
-      DOTFILES: "$HOME/code/github/robinbowes/dotfiles"
+      DOTFILES: "$HOME/code/github.com/robinbowes/dotfiles"
     cmds:
       - |
         cd "{{.DOTFILES}}"
