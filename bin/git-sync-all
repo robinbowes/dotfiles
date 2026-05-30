@@ -69,6 +69,30 @@ sync_repos() {
         check_orig_branch=$(git branch -l "$orig_branch")
         [[ -n $check_orig_branch ]] && git checkout -
       )
+      # Prune [gone] branches still attached to worktrees. git sync removes
+      # gone branches that are not checked out anywhere; this handles the rest.
+      # Worktree removal uses non-force mode, so dirty/unpushed worktrees are
+      # skipped. Set KEEP_GONE_WORKTREES=1 to skip worktree removal entirely.
+      git branch -v | awk "/\[gone\]/ {sub(/^[+*]/,\"\"); print \$1}" | while read -r gone; do
+        [[ -z $gone ]] && continue
+        echo "  [gone] $gone"
+        wt=$(git worktree list --porcelain | awk -v b="refs/heads/$gone" '\''
+          $1=="worktree" {p=$2}
+          $1=="branch" && $2==b {print p; exit}
+        '\'')
+        if [[ -n $wt ]]; then
+          if [[ ${KEEP_GONE_WORKTREES:-} == 1 ]]; then
+            echo "    skip: KEEP_GONE_WORKTREES=1 ($wt)"
+            continue
+          fi
+          if ! git worktree remove "$wt" 2>/dev/null; then
+            echo "    skip: worktree has uncommitted or unpushed work: $wt"
+            continue
+          fi
+          echo "    removed worktree: $wt"
+        fi
+        git branch -D "$gone" >/dev/null && echo "    deleted branch: $gone"
+      done
       if [[ -f .pre-commit-config.yaml ]]; then
         [[ -f .git/hooks/pre-commit ]] || $PRECOMMIT install
         [[ -f .git/hooks/commit-msg ]] || $PRECOMMIT install --hook-type commit-msg
