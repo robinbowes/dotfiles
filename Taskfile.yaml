@@ -1,9 +1,10 @@
 version: "3"
 
+silent: true
+
 tasks:
   default:
     desc: List available tasks
-    silent: true
     cmd: task -g --list-all
 
   backup:home:
