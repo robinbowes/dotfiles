@@ -36,7 +36,7 @@ pre_flight_check() {
       error=1
     fi
   done
-  [[ error -eq 0 ]] || exit 1
+  ((error == 0)) || exit 1
 }
 
 # main sync function - runs in current directory
@@ -51,6 +51,7 @@ sync_repos() {
   # (via process substitution) to keep per-repo output blocks from interleaving.
 
   fd --hidden --type d --exclude .terraform '\.git$' --exec bash -c '
+    set -euo pipefail
     sponge < <(
     cd {//}
     pwd
