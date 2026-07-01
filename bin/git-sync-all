@@ -27,6 +27,7 @@ pre_flight_check() {
     fd
     git
     git-sync
+    sponge
     "$PRECOMMIT"
   )
   for cmd in "${required_cmds[@]}"; do
@@ -45,8 +46,12 @@ sync_repos() {
   # have to be exported for it to be visible in that shell.
   # We don't want to expand any variables in this script
   # shellcheck disable=SC2016
+  #
+  # fd runs matches in parallel, so each job buffers its output through sponge
+  # (via process substitution) to keep per-repo output blocks from interleaving.
 
   fd --hidden --type d --exclude .terraform '\.git$' --exec bash -c '
+    sponge < <(
     cd {//}
     pwd
 
@@ -100,6 +105,7 @@ sync_repos() {
     else
       echo "No remote"
     fi
+    )
   '
 }
 
