@@ -1,17 +1,16 @@
 #!/usr/bin/env bash
 
 # Enable xtrace if the DEBUG environment variable is set
-if [[ ${DEBUG-} =~ ^1|yes|true$ ]]; then
-    set -o xtrace       # Trace the execution of the script (debug)
+if [[ ${DEBUG-} =~ ^(1|yes|true)$ ]]; then
+  set -o xtrace # Trace the execution of the script (debug)
 fi
 
-set -o errexit      # Exit on most errors (see the manual)
-set -o nounset      # Disallow expansion of unset variables
-set -o pipefail     # Use last non-zero exit code in a pipeline
+set -o errexit  # Exit on most errors (see the manual)
+set -o nounset  # Disallow expansion of unset variables
+set -o pipefail # Use last non-zero exit code in a pipeline
 
 PRECOMMIT=prek
 export PRECOMMIT
-
 
 main() {
   pre_flight_check
@@ -25,13 +24,13 @@ echoerr() { printf "%s\n" "$*" >&2; }
 pre_flight_check() {
   local error=0
   declare -a required_cmds=(
+    fd
     git
     git-sync
-    parallel
     "$PRECOMMIT"
   )
-  for cmd in "${required_cmds[@]}" ; do
-    if ! command -v "$cmd" >/dev/null ; then
+  for cmd in "${required_cmds[@]}"; do
+    if ! command -v "$cmd" >/dev/null; then
       echoerr "Command '$cmd' not found"
       error=1
     fi
@@ -41,12 +40,13 @@ pre_flight_check() {
 
 # main sync function - runs in current directory
 sync_repos() {
-  # The script executed by parallel is in-lined, rather than putting it in a
-  # function since parallel creates a new shell for each invocation so a function
-  # would have to be exported for it to be visible to a parallel process.
+  # The script executed by fd is in-lined, rather than putting it in a
+  # function since fd runs a new shell for each match, so a function would
+  # have to be exported for it to be visible in that shell.
   # We don't want to expand any variables in this script
   # shellcheck disable=SC2016
-  parallel '
+
+  fd --hidden --type d --exclude .terraform '\.git$' --exec bash -c '
     cd {//}
     pwd
 
@@ -100,11 +100,11 @@ sync_repos() {
     else
       echo "No remote"
     fi
-  ' < <(sort < <(find . -type d -not \( -path '**/.terraform' -prune \) -name .git))
+  '
 }
 
 # Invoke main with args if not sourced
 # Approach via: https://stackoverflow.com/a/28776166/8787985
-if ! (return 0 2> /dev/null); then
-    main "$@"
+if ! (return 0 2>/dev/null); then
+  main "$@"
 fi
