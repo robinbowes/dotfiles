@@ -12,18 +12,31 @@ set -o pipefail # Use last non-zero exit code in a pipeline
 PRECOMMIT=prek
 export PRECOMMIT
 
-# Per-repo worker, resolved relative to this script so it works regardless of
-# the current directory or PATH.
-SCRIPT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
-SYNC_ONE="$SCRIPT_DIR/git-sync-one"
-
 main() {
+  initialize
   pre_flight_check
   sync_repos
 }
 
 # write output to stderr
 echoerr() { printf "%s\n" "$*" >&2; }
+
+initialize() {
+  # get directory containing this script
+  local dir
+  local source
+  source="${BASH_SOURCE[0]}"
+  while [[ -L $source ]]; do # resolve $source until the file is no longer a symlink
+    dir="$(cd -P "$(dirname "$source")" >/dev/null && pwd)"
+    source="$(readlink "$source")"
+    # if $source was a relative symlink, we need to resolve it relative to the path where the symlink file was located
+    [[ $source != /* ]] && source="$dir/$source"
+  done
+  _SCRIPT_DIR="${source%/*}"
+  # Per-repo worker, resolved relative to this script so it works regardless of
+  # the current directory or PATH.
+  _SYNC_ONE="$_SCRIPT_DIR/git-sync-one"
+}
 
 # Check we have all the required tools installed
 pre_flight_check() {
@@ -41,8 +54,8 @@ pre_flight_check() {
       error=1
     fi
   done
-  if [[ ! -x $SYNC_ONE ]]; then
-    echoerr "Helper 'git-sync-one' not found or not executable: $SYNC_ONE"
+  if [[ ! -x $_SYNC_ONE ]]; then
+    echoerr "Helper 'git-sync-one' not found or not executable: $_SYNC_ONE"
     error=1
   fi
   ((error == 0)) || exit 1
@@ -55,7 +68,7 @@ sync_repos() {
   # {//} is fd's placeholder for the match's parent dir; it must stay unquoted
   # so fd substitutes it per result.
   # shellcheck disable=SC1083
-  fd --hidden --type d --exclude .terraform '\.git$' --exec "$SYNC_ONE" {//}
+  fd --hidden --type d --exclude .terraform '\.git$' --exec "$_SYNC_ONE" {//}
 }
 
 # Invoke main with args if not sourced
