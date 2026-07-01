@@ -1,19 +1,19 @@
 #!/usr/bin/env bash
 
 # Enable xtrace if the DEBUG environment variable is set
-if [[ ${DEBUG-} =~ ^1|yes|true$ ]]; then
-    set -o xtrace       # Trace the execution of the script (debug)
+if [[ ${DEBUG-} =~ ^(1|yes|true)$ ]]; then
+  set -o xtrace # Trace the execution of the script (debug)
 fi
 
-set -o errexit      # Exit on most errors (see the manual)
-set -o nounset      # Disallow expansion of unset variables
-set -o pipefail     # Use last non-zero exit code in a pipeline
+set -o errexit  # Exit on most errors (see the manual)
+set -o nounset  # Disallow expansion of unset variables
+set -o pipefail # Use last non-zero exit code in a pipeline
 
 PRECOMMIT=prek
 export PRECOMMIT
 
-
 main() {
+  initialize
   pre_flight_check
   sync_repos
 }
@@ -21,90 +21,58 @@ main() {
 # write output to stderr
 echoerr() { printf "%s\n" "$*" >&2; }
 
+initialize() {
+  # get directory containing this script
+  local dir
+  local source
+  source="${BASH_SOURCE[0]}"
+  while [[ -L $source ]]; do # resolve $source until the file is no longer a symlink
+    dir="$(cd -P "$(dirname "$source")" >/dev/null && pwd)"
+    source="$(readlink "$source")"
+    # if $source was a relative symlink, we need to resolve it relative to the path where the symlink file was located
+    [[ $source != /* ]] && source="$dir/$source"
+  done
+  _SCRIPT_DIR="${source%/*}"
+  # Per-repo worker, resolved relative to this script so it works regardless of
+  # the current directory or PATH.
+  _SYNC_ONE="$_SCRIPT_DIR/git-sync-one"
+}
+
 # Check we have all the required tools installed
 pre_flight_check() {
   local error=0
   declare -a required_cmds=(
+    fd
     git
     git-sync
-    parallel
+    sponge
     "$PRECOMMIT"
   )
-  for cmd in "${required_cmds[@]}" ; do
-    if ! command -v "$cmd" >/dev/null ; then
+  for cmd in "${required_cmds[@]}"; do
+    if ! command -v "$cmd" >/dev/null; then
       echoerr "Command '$cmd' not found"
       error=1
     fi
   done
-  [[ error -eq 0 ]] || exit 1
+  if [[ ! -x $_SYNC_ONE ]]; then
+    echoerr "Helper 'git-sync-one' not found or not executable: $_SYNC_ONE"
+    error=1
+  fi
+  ((error == 0)) || exit 1
 }
 
-# main sync function - runs in current directory
+# Find every git repo under the current directory and sync it. fd runs the
+# worker for each match in parallel; the worker buffers its own output so the
+# per-repo blocks do not interleave.
 sync_repos() {
-  # The script executed by parallel is in-lined, rather than putting it in a
-  # function since parallel creates a new shell for each invocation so a function
-  # would have to be exported for it to be visible to a parallel process.
-  # We don't want to expand any variables in this script
-  # shellcheck disable=SC2016
-  parallel '
-    cd {//}
-    pwd
-
-    # Code to switch remote URL from git to https
-    #    remote=$(git remote get-url origin)
-    #    echo "Remote is $remote"
-    #    if [[ $remote == git@* ]] ; then
-    #      new_remote=${remote/#git@github.com:/https://github.com/}
-    #      echo "Changing remote to $new_remote"
-    #      git remote set-url origin "$new_remote"
-    #    fi
-
-    if git ls-remote &> /dev/null; then
-      git remote set-head origin --auto >/dev/null
-      default_branch=$(basename $(git symbolic-ref --short refs/remotes/origin/HEAD))
-      orig_branch=$(git rev-parse --abbrev-ref HEAD)
-      [[ $orig_branch != "$default_branch" ]] && git checkout "$default_branch"
-      git sync
-      [[ $orig_branch != "$default_branch" ]] && (
-        check_orig_branch=$(git branch -l "$orig_branch")
-        [[ -n $check_orig_branch ]] && git checkout -
-      )
-      # Prune [gone] branches still attached to worktrees. git sync removes
-      # gone branches that are not checked out anywhere; this handles the rest.
-      # Worktree removal uses non-force mode, so dirty/unpushed worktrees are
-      # skipped. Set KEEP_GONE_WORKTREES=1 to skip worktree removal entirely.
-      git branch -v | awk "/\[gone\]/ {sub(/^[+*]/,\"\"); print \$1}" | while read -r gone; do
-        [[ -z $gone ]] && continue
-        echo "  [gone] $gone"
-        wt=$(git worktree list --porcelain | awk -v b="refs/heads/$gone" '\''
-          $1=="worktree" {p=$2}
-          $1=="branch" && $2==b {print p; exit}
-        '\'')
-        if [[ -n $wt ]]; then
-          if [[ ${KEEP_GONE_WORKTREES:-} == 1 ]]; then
-            echo "    skip: KEEP_GONE_WORKTREES=1 ($wt)"
-            continue
-          fi
-          if ! git worktree remove "$wt" 2>/dev/null; then
-            echo "    skip: worktree has uncommitted or unpushed work: $wt"
-            continue
-          fi
-          echo "    removed worktree: $wt"
-        fi
-        git branch -D "$gone" >/dev/null && echo "    deleted branch: $gone"
-      done
-      if [[ -f .pre-commit-config.yaml ]]; then
-        [[ -f .git/hooks/pre-commit ]] || $PRECOMMIT install
-        [[ -f .git/hooks/commit-msg ]] || $PRECOMMIT install --hook-type commit-msg
-      fi
-    else
-      echo "No remote"
-    fi
-  ' < <(sort < <(find . -type d -not \( -path '**/.terraform' -prune \) -name .git))
+  # {//} is fd's placeholder for the match's parent dir; it must stay unquoted
+  # so fd substitutes it per result.
+  # shellcheck disable=SC1083
+  fd --hidden --type d --exclude .terraform '\.git$' --exec "$_SYNC_ONE" {//}
 }
 
 # Invoke main with args if not sourced
 # Approach via: https://stackoverflow.com/a/28776166/8787985
-if ! (return 0 2> /dev/null); then
-    main "$@"
+if ! (return 0 2>/dev/null); then
+  main "$@"
 fi
