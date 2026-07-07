@@ -7,6 +7,9 @@ setopt AUTO_CD              # `cd foo` is implicit when `foo` is a directory
 setopt CDABLE_VARS          # `cd varname` expands varname as a directory
 setopt CORRECT              # offer correction for mistyped commands
 
+# --- Input ------------------------------------------------------------------
+setopt INTERACTIVE_COMMENTS # allow `#` comments on the interactive command line
+
 # --- Globbing ---------------------------------------------------------------
 setopt EXTENDED_GLOB        # ^, ~, #, etc. in globs
 setopt NO_CASE_GLOB         # case-insensitive globbing
