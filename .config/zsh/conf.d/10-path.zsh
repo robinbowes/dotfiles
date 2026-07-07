@@ -13,6 +13,7 @@ path=(
 )
 
 # Conditional entries.
+[[ -d ${KREW_ROOT:-$HOME/.krew}/bin ]] && path=("${KREW_ROOT:-$HOME/.krew}/bin" $path)
 [[ -n ${GOPATH:-} && -d $GOPATH/bin ]] && path=("$GOPATH/bin" $path)
 [[ -n ${PG_VERSION:-} && -d /opt/homebrew/opt/postgresql@${PG_VERSION}/bin ]] \
   && path=("/opt/homebrew/opt/postgresql@${PG_VERSION}/bin" $path)
