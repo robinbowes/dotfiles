@@ -11,6 +11,9 @@
 # mise — version manager activation hook.
 (( $+commands[mise] )) && eval "$(mise activate zsh)"
 
+# direnv — per-directory environment loader.
+(( $+commands[direnv] )) && eval "$(direnv hook zsh)"
+
 # iTerm2 shell integration (file is only present if installed via iTerm2 menu)
 [[ -e "${HOME}/.iterm2_shell_integration.zsh" ]] \
   && source "${HOME}/.iterm2_shell_integration.zsh"
