@@ -30,3 +30,6 @@ tags
 .config/zsh/.zsh_history
 .config/zsh/.antidote/
 .config/zsh/path.local
+
+# direnv files - these often contain secrets
+.envrc
