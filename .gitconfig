@@ -104,6 +104,10 @@
 [push]
 	default = simple
 
+[fetch]
+	# drop local tracking refs for branches deleted on the remote (e.g. after a PR merge)
+	prune = true
+
 [filter "media"]
   required = true
   clean = git media clean %f
