@@ -18,6 +18,7 @@ alias gcm="git commit -m"
 alias gsa="git sync-all"
 alias h='fc -li 1'             # numbered history with timestamps (zsh idiom)
 alias j="jobs"
+alias uc=unifictl
 alias v="vim"
 
 # --- ls colour flag --------------------------------------------------------
