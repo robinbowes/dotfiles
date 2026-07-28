@@ -5,6 +5,8 @@ set -euo pipefail
 # ── Configuration ────────────────────────────────────────
 OP_VAULT="Backups"
 OP_ITEM="Personal Home Directory"
+OP_ACCOUNT="yo61.1password.com"
+OP_TOKEN_REF="op://Backups/1Password yo61 Backups Service Account Token/credential"
 BACKUP_FILE_NAME="secure_content-$(gdate -Isec).tar.gz"
 # ─────────────────────────────────────────────────────────
 
@@ -43,9 +45,15 @@ if [[ ! -f "$BACKUP_FILE_NAME" ]]; then
   exit 1
 fi
 
-# Require the token in the environment
-if [[ -z "${OP_SERVICE_ACCOUNT_TOKEN:-}" ]]; then
-  echo "ERROR: OP_SERVICE_ACCOUNT_TOKEN is not set" >&2
+# Read the service-account token as *this user* (biometric via the 1Password
+# desktop app). env -u forces user-account auth even if a stale token is still
+# exported in the calling shell. The `if !` guard keeps set -e from swallowing
+# our error message, and the empty check covers a success-but-empty read.
+if ! token="$(env -u OP_SERVICE_ACCOUNT_TOKEN op read --account "$OP_ACCOUNT" "$OP_TOKEN_REF")" ||
+  [[ -z "$token" ]]; then
+  echo "ERROR: could not read service-account token from 1Password" >&2
+  echo "       (is the 1Password app unlocked, and does your user account" >&2
+  echo "        have read access to the Backups vault?)" >&2
   exit 1
 fi
 
@@ -56,7 +64,7 @@ label="${label//./\\.}"
 
 echo "Attaching ${label} to '${OP_ITEM}' in vault '${OP_VAULT}'..."
 
-op item edit "$OP_ITEM" \
+OP_SERVICE_ACCOUNT_TOKEN="$token" op item edit "$OP_ITEM" \
   --vault "$OP_VAULT" \
   "${label}[file]=${BACKUP_FILE_NAME}"
 
