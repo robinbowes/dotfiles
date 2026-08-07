@@ -33,3 +33,5 @@ tags
 
 # direnv files - these often contain secrets
 .envrc
+
+**/.claude/settings.local.json
