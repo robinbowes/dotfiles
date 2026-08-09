@@ -219,7 +219,7 @@ let g:ale_floating_preview = 1
 
 " lint and formatting options for shell files
 let g:ale_sh_shellcheck_options = '-x'
-let g:ale_sh_shfmt_options = '-i2 -bn -ci -sr'
+let g:ale_sh_shfmt_options = '-i 2 -bn -ci -sr'
 
 " lint and formatting options for d2 files
 " Enable/disable auto format on save (default: 1)
