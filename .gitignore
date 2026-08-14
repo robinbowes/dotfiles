@@ -35,3 +35,10 @@ tags
 .envrc
 
 **/.claude/settings.local.json
+
+# Worktrees checked out inside the repo they belong to. Each one is a working
+# tree with its own .git file, so the parent repo sees an embedded repository
+# and `git add -A` stages it as a gitlink (mode 160000) rather than skipping it.
+# The result is a commit that looks like a one-line addition and is not.
+# (Git's own .git/worktrees/ metadata needs no rule — it is inside .git.)
+.git-worktrees/
