@@ -1,0 +1,43 @@
+#!/usr/bin/env bash
+# Run a command inside the bknix PHP profile, where the CiviCRM dev toolchain lives.
+#
+# cv, civibuild and phpunit9 are not on the normal PATH - they come from a nix
+# profile that `use-bknix` activates. Without this wrapper the CiviCRM extension
+# tests look unrunnable, which is exactly the wrong conclusion to reach.
+#
+# use-bknix emits KEY=value lines plus an `export` line, and then a handful of
+# bash-completion `source` lines. Those completions are interactive-shell sugar
+# and blow up under zsh, so strip them - we only want the environment.
+#
+# Usage:
+#   bknix-run                                  # dump the resulting environment
+#   bknix-run 'cd ~/some/dir && phpunit9 x'    # single string, shell-interpreted
+#   bknix-run cv ext:list                      # argv form
+#
+# Override the profile with BKNIX_PROFILE if a build needs a different PHP.
+set -euo pipefail
+
+readonly USE_BKNIX=/usr/local/bin/use-bknix
+BKNIX_PROFILE="${BKNIX_PROFILE:-php84r1011}"
+
+if [[ ! -x "$USE_BKNIX" ]]; then
+  echo "bknix-run: $USE_BKNIX not found or not executable." >&2
+  echo "bknix-run: install bknix (https://github.com/totten/bknix) or set USE_BKNIX." >&2
+  exit 1
+fi
+
+if ! eval "$("$USE_BKNIX" "$BKNIX_PROFILE" 2> /dev/null | grep -v '^source ')"; then
+  echo "bknix-run: could not activate bknix profile '$BKNIX_PROFILE'." >&2
+  exit 1
+fi
+
+if [[ "$#" -eq 0 ]]; then
+  exec env
+fi
+
+# One argument is treated as a shell snippet so `cd x && y` works as written.
+# Several are treated as argv, so filenames with spaces survive.
+if [[ "$#" -eq 1 ]]; then
+  exec bash -c "$1"
+fi
+exec "$@"
