@@ -23,6 +23,52 @@ tasks:
         mv "$tmp" "{{.DOTFILES_CLAUDE}}/settings.snippet.json"
       - git -C "{{.DOTFILES_CLAUDE}}" status -s -- skill-lock.json settings.snippet.json
 
+  vim:plugins:check:
+    desc: List vim plugins with upstream updates available
+    vars:
+      DOTFILES: "$HOME/code/github.com/robinbowes/dotfiles"
+    cmds:
+      - |
+        cd "{{.DOTFILES}}"
+        git config --file .gitmodules --get-regexp '^submodule\..*\.path$' \
+          | awk '{print $2}' | while IFS= read -r p; do
+          git -C "$p" fetch --quiet origin 2> /dev/null || continue
+          git -C "$p" remote set-head origin -a > /dev/null 2>&1 || true
+          ref=$(git -C "$p" symbolic-ref --short refs/remotes/origin/HEAD 2> /dev/null) || continue
+          cur=$(git -C "$p" rev-parse --short HEAD)
+          tgt=$(git -C "$p" rev-parse --short "$ref")
+          if [ "$cur" != "$tgt" ]; then
+            n=$(git -C "$p" rev-list --count "HEAD..$ref")
+            printf '  %-30s %s -> %s  (%s behind %s)\n' "$(basename "$p")" "$cur" "$tgt" "$n" "$ref"
+          fi
+        done
+        echo "  (nothing listed means every plugin is current)"
+
+  vim:plugins:update:
+    desc: Update vim plugins to their upstream default branch
+    vars:
+      DOTFILES: "$HOME/code/github.com/robinbowes/dotfiles"
+    cmds:
+      - |
+        cd "{{.DOTFILES}}"
+        git config --file .gitmodules --get-regexp '^submodule\..*\.path$' \
+          | awk '{print $2}' | while IFS= read -r p; do
+          if ! git -C "$p" fetch --quiet origin 2> /dev/null; then
+            printf '  SKIP (fetch failed): %s\n' "$p"
+            continue
+          fi
+          git -C "$p" remote set-head origin -a > /dev/null 2>&1 || true
+          ref=$(git -C "$p" symbolic-ref --short refs/remotes/origin/HEAD 2> /dev/null) || continue
+          cur=$(git -C "$p" rev-parse --short HEAD)
+          git -C "$p" checkout --quiet "$ref"
+          new=$(git -C "$p" rev-parse --short HEAD)
+          if [ "$cur" != "$new" ]; then
+            printf '  updated: %-28s %s -> %s\n' "$(basename "$p")" "$cur" "$new"
+          fi
+        done
+      - git -C "{{.DOTFILES}}" status --short
+      - echo "Review, then commit the submodule pointers on a branch."
+
   dotfiles:pull:
     desc: Pull local $HOME changes back into the dotfiles repo (inverse of bootstrap.sh)
     vars:

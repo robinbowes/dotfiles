@@ -35,8 +35,24 @@ Excluded from both directions: `.git/`, `claude/`, `.claude/`, `docs/`,
 - `.vim/after/plugin/*.vim` — local overrides and custom linter definitions,
   loaded after the packages
 - `.config/`, `bin/`, `claude/` — XDG config, scripts, Claude Code snapshots
-- `.config/nvim/` is an **unmodified LazyVim starter and is not in use** — vim is
-  the editor here. Don't change it expecting an effect.
+
+## Updating vim plugins
+
+```bash
+task vim:plugins:check    # what has upstream moved on?
+task vim:plugins:update   # move them, then review and commit the pointers
+```
+
+**Don't use `git submodule update --remote`.** `.gitmodules` pins no branches, so
+it assumes `master` — but `vim-perl` defaults to `dev`, and it would quietly
+check out the wrong branch there. The tasks read each repo's own
+`refs/remotes/origin/HEAD` instead, refreshing it first with
+`git remote set-head origin -a` so a renamed upstream default doesn't go stale.
+
+Submodules are tracked as detached commit pointers, so an update is just
+`git checkout origin/<default>` inside each one plus a commit in the parent.
+Update noisy plugins on their own branch — a plugin that misbehaves is much
+easier to bisect when its pointer bump isn't mixed in with others.
 
 ## Testing vim changes without deploying
 
