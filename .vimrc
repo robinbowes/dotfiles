@@ -208,6 +208,7 @@ let g:ale_linters = {
   \ 'perl': ['perl','perlcritic'],
   \ 'python': ['ruff'],
   \ 'sh': ['shellcheck'],
+  \ 'typescript': ['tsgo'],
   \ 'yaml': ['prettier']
   \}
 
