@@ -2,18 +2,18 @@
 
 # Enable xtrace if the DEBUG environment variable is set
 if [[ ${DEBUG-} =~ ^1|yes|true$ ]]; then
-  set -o xtrace       # Trace the execution of the script (debug)
+  set -o xtrace # Trace the execution of the script (debug)
 fi
 
-set -o errexit      # Exit on most errors (see the manual)
-set -o nounset      # Disallow expansion of unset variables
-set -o pipefail     # Use last non-zero exit code in a pipeline
+set -o errexit  # Exit on most errors (see the manual)
+set -o nounset  # Disallow expansion of unset variables
+set -o pipefail # Use last non-zero exit code in a pipeline
 
 main() {
   pre_flight_check
   initialize
   parse_cmdline "$@"
-  if check_for_changed_files ; then
+  if check_for_changed_files; then
     sync_files
     cleanup_legacy_zsh_state
     reload_config
@@ -22,7 +22,10 @@ main() {
 
 # write output to stderr
 echoerr() { printf "%s\n" "$*" >&2; }
-exiterr() { echoerr "$@" ; exit 1; }
+exiterr() {
+  echoerr "$@"
+  exit 1
+}
 
 # prompt user to confirm an operation
 confirm() {
@@ -44,8 +47,8 @@ pre_flight_check() {
     rsync
     diff
   )
-  for cmd in "${required_cmds[@]}" ; do
-    if ! command -v "$cmd" >/dev/null ; then
+  for cmd in "${required_cmds[@]}"; do
+    if ! command -v "$cmd" > /dev/null; then
       echoerr "Command '$cmd' not found"
       error=1
     fi
@@ -58,10 +61,10 @@ initialize() {
   local dir
   local source
   source="${BASH_SOURCE[0]}"
-  while [[ -h $source ]]; do # resolve $source until the file is no longer a symlink
-    dir="$( cd -P "$( dirname "$source" )" >/dev/null && pwd )"
+  while [[ -L $source ]]; do # resolve $source until the file is no longer a symlink
+    dir="$(cd -P "$(dirname "$source")" > /dev/null && pwd)"
     source="$(readlink "$source")"
-     # if $source was a relative symlink, we need to resolve it relative to the path where the symlink file was located
+    # if $source was a relative symlink, we need to resolve it relative to the path where the symlink file was located
     [[ $source != /* ]] && source="$dir/$source"
   done
   _SCRIPT_DIR="${source%/*}"
@@ -84,10 +87,10 @@ check_for_changed_files() {
   declare -a created_files=()
   declare -a overwritten_files=()
 
-  while read -r file ; do
+  while read -r file; do
     clean_file="${file#./}"
-    if ! diff --brief -Bb "$clean_file" "$HOME/$clean_file" >/dev/null 2>&1 ; then
-      if [[ -f "$HOME/$clean_file" ]] ; then
+    if ! diff --brief -Bb "$clean_file" "$HOME/$clean_file" > /dev/null 2>&1; then
+      if [[ -f "$HOME/$clean_file" ]]; then
         overwritten_files+=("$clean_file")
       else
         created_files+=("$clean_file")
@@ -117,23 +120,23 @@ check_for_changed_files() {
   )
 
   local prompt=false
-  if (( ${#overwritten_files[@]} > 0 )) ; then
+  if ((${#overwritten_files[@]} > 0)); then
     echo
     echo "The following files will be created in your home directory:"
     echo "${created_files[@]}"
     prompt=true
   fi
 
-  if (( ${#overwritten_files[@]} > 0 )) ; then
+  if ((${#overwritten_files[@]} > 0)); then
     echo
     echo "The following files will be overwritten in your home directory:"
     echo "${overwritten_files[@]}"
     prompt=true
   fi
 
-  if [[ $prompt == "true" ]] && [[ $_FORCE == "false" ]] ; then
+  if [[ $prompt == "true" ]] && [[ $_FORCE == "false" ]]; then
     echo
-    if ! confirm "Proceed? (y/n) " ; then
+    if ! confirm "Proceed? (y/n) "; then
       return 1
     fi
   fi
@@ -173,7 +176,7 @@ cleanup_legacy_zsh_state() {
     zprofile_size=$(wc -c < "$HOME/.zprofile" | tr -d ' ')
     # Only remove if it's the small macOS-default file (< 200 bytes). Hand-edited
     # versions are preserved; the user can clean them up manually.
-    if (( zprofile_size < 200 )); then
+    if ((zprofile_size < 200)); then
       echo "Removing orphaned ~/.zprofile (superseded by \$ZDOTDIR/.zprofile)"
       rm "$HOME/.zprofile"
     else
@@ -199,5 +202,5 @@ reload_config() {
 # Invoke main with args if not sourced
 # Approach via: https://stackoverflow.com/a/28776166/8787985
 if ! (return 0 2> /dev/null); then
-    main "$@"
+  main "$@"
 fi
