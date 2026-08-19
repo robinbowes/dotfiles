@@ -247,3 +247,12 @@ ncs() {
   echo "exported env var: NATS_CONTEXT=$NATS_CONTEXT"
   [[ -n "${TMUX-}" ]] && tmux select-pane -T "ctx:${NATS_CONTEXT}"
 }
+
+dependabot-prs() {
+  local owners=()
+  local o
+  for o in "$(gh api user --jq '.login')" $(gh api user/orgs --jq '.[].login'); do
+    owners+=(--owner "$o")
+  done
+  gh search prs --author app/dependabot --state open --limit 100 "${owners[@]}" "$@"
+}
