@@ -106,6 +106,7 @@ check_for_changed_files() {
       -name '*' \
       ! -name 'LICENSE-MIT.txt' \
       ! -name 'README.md' \
+      ! -name 'CLAUDE.md' \
       ! -name 'bootstrap.sh' \
       ! -name 'LICENSE-GPL.txt' \
       ! -name '.zsh_plugins.zsh' \
@@ -149,6 +150,7 @@ sync_files() {
     --exclude ".DS_Store" \
     --exclude "bootstrap.sh" \
     --exclude "README.md" \
+    --exclude "CLAUDE.md" \
     --exclude "LICENSE-GPL.txt" \
     --exclude "LICENSE-MIT.txt" \
     --exclude "claude/" \
