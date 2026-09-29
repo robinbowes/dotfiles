@@ -9,10 +9,21 @@ tasks:
 
   backup:home:
     desc: Backup secure content from $HOME
+    summary: >-
+      Tars the secure parts of $HOME — .aws, .config, .ssh, .gnupg, .keys, .extra, the git
+      configs, the Claude settings and skills — and attaches the archive to the 'Personal Home
+      Directory' item in the 1Password Backups vault, then deletes the local copy. Caches and live
+      sockets are excluded, so the archive holds configuration and keys rather than state. Needs
+      the backup service account's token, which the script reads from 1Password itself.
     cmd: secure_home_backup.sh
 
   claude:snapshot:
     desc: Refresh the Claude Code skills + plugins snapshot in dotfiles
+    summary: >-
+      Copies ~/.agents/.skill-lock.json into claude/, and extracts just enabledPlugins and
+      extraKnownMarketplaces from ~/.claude/settings.json into claude/settings.snippet.json — the
+      rest of that file is machine-local and deliberately not captured. It stages nothing and
+      commits nothing; it prints git status for the two files so you can see what moved.
     vars:
       DOTFILES_CLAUDE: "$HOME/code/github.com/robinbowes/dotfiles/claude"
     cmds:
@@ -25,6 +36,10 @@ tasks:
 
   vim:plugins:check:
     desc: List vim plugins with upstream updates available
+    summary: >-
+      Read-only counterpart to vim:plugins:update: fetches each .gitmodules submodule and reports
+      the ones whose upstream default branch has moved ahead. It changes no submodule and stages
+      nothing.
     vars:
       DOTFILES: "$HOME/code/github.com/robinbowes/dotfiles"
     cmds:
@@ -46,6 +61,11 @@ tasks:
 
   vim:plugins:update:
     desc: Update vim plugins to their upstream default branch
+    summary: >-
+      Fast-forwards each vim plugin submodule to its upstream default branch, resolving that
+      branch per submodule rather than assuming main. A submodule whose fetch fails is reported as
+      SKIP and left alone, so a network blip cannot half-update the set. Commit the submodule
+      pointers yourself afterwards.
     vars:
       DOTFILES: "$HOME/code/github.com/robinbowes/dotfiles"
     cmds:
@@ -71,6 +91,12 @@ tasks:
 
   dotfiles:pull:
     desc: Pull local $HOME changes back into the dotfiles repo (inverse of bootstrap.sh)
+    summary: >-
+      Copies changed files from $HOME back into the repo, the inverse of bootstrap.sh. It walks
+      the REPO's file list, so it only ever updates files already tracked — a new file in $HOME is
+      invisible to it and has to be added by hand. claude/ is skipped (use claude:snapshot), as
+      are the repo-only files: README.md, bootstrap.sh and the two LICENSE files. Prints each file
+      it updated, then git status; it commits nothing.
     vars:
       DOTFILES: "$HOME/code/github.com/robinbowes/dotfiles"
     cmds:
