@@ -15,6 +15,17 @@
 #   bknix-run cv ext:list                      # argv form
 #
 # Override the profile with BKNIX_PROFILE if a build needs a different PHP.
+#
+# BKNIX_PHP=mise swaps the profile's PHP for the one mise resolves in the
+# current directory, so tests run on the same patch release as production
+# rather than whatever the nix profile happens to pin (8.4.23 vs 8.4.19 at the
+# time of writing). phpunit9 and cv are `#!/usr/bin/env php`, so PATH is all it
+# takes; the nix profile still supplies mysqld, redis and the rest.
+#
+# Not the default, because mise's PHP is built without xdebug, apcu, redis,
+# memcached, imagick, ldap, pgsql and tidy. Coverage runs need the profile PHP.
+#
+#   BKNIX_PHP=mise bknix-run 'phpunit9 tests/phpunit'
 set -euo pipefail
 
 readonly USE_BKNIX=/usr/local/bin/use-bknix
@@ -29,6 +40,21 @@ fi
 if ! eval "$("$USE_BKNIX" "$BKNIX_PROFILE" 2> /dev/null | grep -v '^source ')"; then
   echo "bknix-run: could not activate bknix profile '$BKNIX_PROFILE'." >&2
   exit 1
+fi
+
+# Must come after the profile activation above, which prepends its own PHP.
+if [[ "${BKNIX_PHP:-}" == "mise" ]]; then
+  if ! command -v mise > /dev/null; then
+    echo "bknix-run: BKNIX_PHP=mise but mise is not on PATH." >&2
+    exit 1
+  fi
+  # Resolved against the caller's directory, so a repo's mise.toml pin wins.
+  if ! mise_php_dir="$(mise where php 2> /dev/null)/bin" || [[ ! -x "$mise_php_dir/php" ]]; then
+    echo "bknix-run: mise has no php for this directory. Try 'mise install'." >&2
+    exit 1
+  fi
+  PATH="$mise_php_dir:$PATH"
+  export PATH
 fi
 
 if [[ "$#" -eq 0 ]]; then
