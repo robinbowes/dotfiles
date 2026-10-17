@@ -79,6 +79,17 @@ parse_cmdline() {
   fi
 }
 
+# Tracked files only, so nothing gitignored or untracked in the repo reaches $HOME
+deployable_files() {
+  git -C "$_SCRIPT_DIR" ls-files --recurse-submodules -- \
+    ':(exclude)claude/' \
+    ':(exclude)docs/' \
+    ':(exclude)README.md' \
+    ':(exclude)CLAUDE.md' \
+    ':(exclude)bootstrap.sh' \
+    ':(exclude)LICENSE-*.txt'
+}
+
 check_for_changed_files() {
   cd "$_SCRIPT_DIR"
 
@@ -88,36 +99,14 @@ check_for_changed_files() {
   declare -a overwritten_files=()
 
   while read -r file; do
-    clean_file="${file#./}"
-    if ! diff --brief -Bb "$clean_file" "$HOME/$clean_file" > /dev/null 2>&1; then
-      if [[ -f "$HOME/$clean_file" ]]; then
-        overwritten_files+=("$clean_file")
+    if ! diff --brief -Bb "$file" "$HOME/$file" > /dev/null 2>&1; then
+      if [[ -f "$HOME/$file" ]]; then
+        overwritten_files+=("$file")
       else
-        created_files+=("$clean_file")
+        created_files+=("$file")
       fi
     fi
-  done < <(
-    find . \
-      -path ./.git -prune \
-      -o \
-      -path ./claude -prune \
-      -o \
-      -path ./.claude -prune \
-      -o \
-      -path ./docs -prune \
-      -o \
-      -name '*' \
-      ! -name 'LICENSE-MIT.txt' \
-      ! -name 'README.md' \
-      ! -name 'CLAUDE.md' \
-      ! -name 'bootstrap.sh' \
-      ! -name 'LICENSE-GPL.txt' \
-      ! -name '.zsh_plugins.zsh' \
-      ! -name '.zcompdump*' \
-      ! -name '.zsh_history' \
-      -type f \
-      -print
-  )
+  done < <(deployable_files)
 
   local prompt=false
   if ((${#created_files[@]} > 0)); then
@@ -148,25 +137,7 @@ sync_files() {
 
   cd "$_SCRIPT_DIR"
 
-  rsync \
-    --exclude ".git/" \
-    --exclude ".DS_Store" \
-    --exclude "bootstrap.sh" \
-    --exclude "README.md" \
-    --exclude "CLAUDE.md" \
-    --exclude "LICENSE-GPL.txt" \
-    --exclude "LICENSE-MIT.txt" \
-    --exclude "claude/" \
-    --exclude ".claude/" \
-    --exclude "docs/" \
-    --exclude ".zsh_plugins.zsh" \
-    --exclude ".zcompdump*" \
-    --exclude ".zsh_history" \
-    --exclude ".antidote/" \
-    --exclude "path.local" \
-    -av \
-    --no-perms \
-    . ~
+  rsync -av --no-perms --files-from=<(deployable_files) . ~
 }
 
 cleanup_legacy_zsh_state() {

@@ -93,26 +93,26 @@ tasks:
     desc: Pull local $HOME changes back into the dotfiles repo (inverse of bootstrap.sh)
     summary: >-
       Copies changed files from $HOME back into the repo, the inverse of bootstrap.sh. It walks
-      the REPO's file list, so it only ever updates files already tracked — a new file in $HOME is
-      invisible to it and has to be added by hand. claude/ is skipped (use claude:snapshot), as
-      are the repo-only files: README.md, bootstrap.sh and the two LICENSE files. Prints each file
-      it updated, then git status; it commits nothing.
+      `git ls-files`, so it only ever updates tracked files — a new file in $HOME is invisible to
+      it and has to be added by hand. Vim plugin submodules are skipped (update them with
+      vim:plugins:update), as are claude/ (use claude:snapshot), docs/ and the repo-only files:
+      README.md, CLAUDE.md, bootstrap.sh and the two LICENSE files. Prints each file it updated,
+      then git status; it commits nothing.
     vars:
       DOTFILES: "$HOME/code/github.com/robinbowes/dotfiles"
     cmds:
       - |
         cd "{{.DOTFILES}}"
-        find . \
-          -path ./.git -prune -o \
-          -path ./claude -prune -o \
-          -type f \
-          ! -name 'LICENSE-MIT.txt' \
-          ! -name 'LICENSE-GPL.txt' \
-          ! -name 'README.md' \
-          ! -name 'bootstrap.sh' \
-          -print | while IFS= read -r file; do
-          rel="${file#./}"
-          if [ -f "$HOME/$rel" ] && ! diff -q "$HOME/$rel" "$rel" >/dev/null 2>&1; then
+        git ls-files -- \
+          ':(exclude)claude/' \
+          ':(exclude)docs/' \
+          ':(exclude)README.md' \
+          ':(exclude)CLAUDE.md' \
+          ':(exclude)bootstrap.sh' \
+          ':(exclude)LICENSE-*.txt' \
+          | while IFS= read -r rel; do
+          if [[ ! -f "$rel" || -L "$rel" ]]; then continue; fi
+          if [[ -f "$HOME/$rel" ]] && ! diff -q "$HOME/$rel" "$rel" >/dev/null 2>&1; then
             printf '  updated: %s\n' "$rel"
             cp "$HOME/$rel" "$rel"
           fi

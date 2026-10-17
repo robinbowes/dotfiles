@@ -23,9 +23,11 @@ branch — it merges `main` into whatever branch is checked out. Sync only from
 **`rsync` runs without `--delete`.** Deleting a file here does not remove it from
 `$HOME`; do that by hand.
 
-Excluded from both directions: `.git/`, `claude/`, `.claude/`, `docs/`,
-`bootstrap.sh`, `README.md`, the licences, and generated zsh state
-(`.zsh_plugins.zsh`, `.zcompdump*`, `.zsh_history`).
+Both directions work from `git ls-files`, so only tracked files move — anything
+untracked or gitignored in the repo (generated zsh state, `.lastlight/`) never
+reaches `$HOME`. Excluded from both: `claude/`, `docs/`, and the top-level
+`README.md`, `CLAUDE.md`, `bootstrap.sh` and licences. `task dotfiles:pull` also
+skips the vim plugin submodules.
 
 ## Layout
 
