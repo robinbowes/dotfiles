@@ -42,3 +42,11 @@ tags
 # The result is a commit that looks like a one-line addition and is not.
 # (Git's own .git/worktrees/ metadata needs no rule — it is inside .git.)
 .git-worktrees/
+
+# Local PR-review output from the lastlight-pr-gate plugin (findings, diff,
+# reviewer log, attestation). Machine-specific and regenerable, like .envrc.
+# NARROW deliberately: a committed `.lastlight/lastlight.yml` (plus workflows/,
+# skills/, agent-context/) is Last Light's supported PER-REPO CONFIG OVERLAY,
+# read from the default branch. Ignoring `.lastlight/` wholesale would silently
+# block ever committing one.
+.lastlight/pr-review/
