@@ -209,7 +209,7 @@ let g:ale_linters = {
   \ 'python': ['ruff'],
   \ 'sh': ['shellcheck'],
   \ 'typescript': ['tsgo'],
-  \ 'yaml': ['prettier']
+  \ 'yaml': ['prettier', 'jactionlint']
   \}
 
 let g:ale_python_ruff_use_global = 1

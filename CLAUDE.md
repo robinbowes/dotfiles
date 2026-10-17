@@ -91,3 +91,11 @@ speaks LSP directly, so ALE's built-in `tsserver` linter is dead here. The repos
 this targets are still on TS 6, where the linter stays silent until they migrate.
 Formatting is **not** wired to ALE — `oxfmt` runs at the CLI, and letting an LSP
 formatter near these files would fight it.
+
+GitHub workflows use `jactionlint` (`.vim/after/plugin/ale-jactionlint.vim`), a
+custom linter reusing ALE's actionlint handler. The built-in `actionlint` linter
+passes single-dash flags jactionlint rejects, so it can't be pointed at it. The
+linter reads the buffer on stdin with `--stdin-filename`, which is how
+jactionlint finds the repo's `.github/jactionlint.yaml` (only inside a git
+repo; elsewhere the `default` profile runs). It needs `jactionlint` on `$PATH`:
+`mise use -g github:jdx/jactionlint@<version>`.
