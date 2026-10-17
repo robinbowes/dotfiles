@@ -120,7 +120,7 @@ check_for_changed_files() {
   )
 
   local prompt=false
-  if ((${#overwritten_files[@]} > 0)); then
+  if ((${#created_files[@]} > 0)); then
     echo
     echo "The following files will be created in your home directory:"
     echo "${created_files[@]}"
