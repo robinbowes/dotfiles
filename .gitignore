@@ -50,3 +50,7 @@ tags
 # read from the default branch. Ignoring `.lastlight/` wholesale would silently
 # block ever committing one.
 .lastlight/pr-review/
+
+# SSH private keys stay in ~/.ssh and 1Password; only config is tracked here.
+.ssh/id_*
+!.ssh/id_*.pub
