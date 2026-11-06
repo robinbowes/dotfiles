@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+
+# SSH_ASKPASS helper for the UDM Pro: answers ssh's password prompt from
+# 1Password so the password never lands on disk or in shell history.
+#   SSH_ASKPASS=~/bin/udm-askpass SSH_ASKPASS_REQUIRE=force ssh udm ...
+
+# Enable xtrace if the DEBUG environment variable is set
+if [[ ${DEBUG-} =~ ^(1|yes|true)$ ]]; then
+  set -o xtrace # Trace the execution of the script (debug)
+fi
+
+set -o errexit  # Exit on most errors (see the manual)
+set -o nounset  # Disallow expansion of unset variables
+set -o pipefail # Use last non-zero exit code in a pipeline
+
+readonly PASSWORD_REF="op://Private/UDM Pro Shell/password"
+
+echoerr() {
+  echo "$@" 1>&2
+}
+
+main() {
+  local prompt=${1-}
+
+  # ssh also routes host-key confirmations through askpass; never answer those
+  # with the password.
+  if [[ ! $prompt =~ [Pp]assword ]]; then
+    echoerr "udm-askpass: refusing non-password prompt: $prompt"
+    echoerr "Connect once with plain 'ssh udm' to answer it interactively."
+    exit 1
+  fi
+
+  op read "$PASSWORD_REF"
+}
+
+# Invoke main with args if not sourced (https://stackoverflow.com/a/28776166/8787985)
+if ! (return 0 2> /dev/null); then
+  main "$@"
+fi
